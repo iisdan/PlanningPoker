@@ -28,6 +28,7 @@ export function PreGameLobby(props: { role: 'host' | 'player'; session: ReturnTy
                 {/* <Box paddingBottom="s" alignItems="center" justifyContent="center">
                   <img src={require('../assets/icons/sad.svg').default} style={{ width: 100 }} />
                 </Box> */}
+                
                 <Text fontWeight={600} size="xxl">No players yet</Text>
               </Box>
             </>
