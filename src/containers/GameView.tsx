@@ -12,7 +12,7 @@ export function GameView(props: { role: 'host' | 'player'; session: ReturnType<t
   const players = game?.players || {};
   const phase = game?.phase;
   const myId = session.myId;
-  const me = game?.players[myId || ''];
+  // const me = game?.players[myId || ''];
 
   const numberOfCardsSelected = React.useMemo(() => {
     const playersWithCardsSelected = Object.values(game?.players || {}).filter(player => Boolean(player.selectedCard));
