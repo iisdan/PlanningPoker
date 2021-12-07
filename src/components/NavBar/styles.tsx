@@ -1,10 +1,6 @@
 import styled from 'styled-components';
 import { theme } from '../../theme';
 
-// position: fixed;
-  // left: 0px;
-  // top: 0px;
-
 export const Container = styled.div`
   display: flex;
   width: 100%;

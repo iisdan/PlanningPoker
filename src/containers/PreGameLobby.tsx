@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box } from '../components/Box';
 import { Button } from '../components/Button';
-import { MaxWidth } from '../components/MaxWidth';
 import { ProfileImageLarge } from '../components/ProfileImageLarge';
 import { Text } from '../components/Text';
 import { useSession } from '../state/session';
