@@ -63,9 +63,7 @@ export function GameView(props: { role: 'host' | 'player'; session: ReturnType<t
       {props.role === 'player' && (
         <Box paddingTop="l" justifyContent="center">
 
-          {phase === 'selecting' && (
-            <Button disabled={!me?.selectedCard} onClick={() => session.setSelectedCard(myId!, null)}>Change Card</Button>
-          )}
+          <Button disabled={phase !== 'selecting'} onClick={() => session.setSelectedCard(myId!, null)}>Change Card</Button>
 
         </Box>
       )}
