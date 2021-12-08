@@ -1,10 +1,7 @@
 import firebase from 'firebase/compat/app'
 import { getDatabase, ref, set, onValue, remove } from "firebase/database";
-// import "firebase/compat/analytics";
 import { DataProvider } from '..';
-//import { getAnalytics } from "firebase/analytics";
 import { getAnalytics, logEvent, Analytics } from "firebase/analytics";
-// import { getAnalytics, logEvent } from "firebase/analytics";
 
 export class FirebaseRealtimeDBProvider implements DataProvider {
 

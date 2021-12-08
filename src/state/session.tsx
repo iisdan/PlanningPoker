@@ -28,12 +28,13 @@ export function useSession() {
       pushGame(game.code, game);
     }
 
-    const startGame = () => {
+    const startGame = (companyName: string) => {
       let updatedGame = { ...game! };
       updatedGame.phase = 'selecting';
       updateGame(updatedGame);
-      realtimeDatabase.logEvent('game_started', { gameCode: game?.code })
+      realtimeDatabase.logEvent('game_started', { gameCode: game?.code, companyName })
       realtimeDatabase.logEvent('round_started', { gameCode: game?.code })
+      saveLocal('hostData', { companyName })
     }
 
     const flipCards = () => {

@@ -1,9 +1,11 @@
 import React from 'react';
 import { Box } from '../components/Box';
 import { Button } from '../components/Button';
+import { Input } from '../components/Input';
 import { ProfileImageLarge } from '../components/ProfileImageLarge';
 import { Text } from '../components/Text';
 import { useSession } from '../state/session';
+import { getLocal } from '../utils/localstorage';
 import { copyToClipboard } from '../utils/system';
 
 export function PreGameLobby(props: { role: 'host' | 'player'; session: ReturnType<typeof useSession>; }) {
@@ -16,6 +18,15 @@ export function PreGameLobby(props: { role: 'host' | 'player'; session: ReturnTy
   const hasPlayers = Boolean(Object.values(players).length);
 
   const [copied, setCopied] = React.useState(false);
+  const [companyName, setCompanyName] = React.useState('');
+
+
+  React.useEffect(() => {
+    const hostData = getLocal<{ companyName: string; }>('hostData');
+    if (hostData) {
+      setCompanyName(hostData.companyName)
+    }
+  }, []);
 
   return (
     <Box wrap alignItems="center" justifyContent="center" direction="vertical">
@@ -25,10 +36,6 @@ export function PreGameLobby(props: { role: 'host' | 'player'; session: ReturnTy
           {!hasPlayers && (
             <>
               <Box direction="vertical" alignItems="center" justifyContent="center">
-                {/* <Box paddingBottom="s" alignItems="center" justifyContent="center">
-                  <img src={require('../assets/icons/sad.svg').default} style={{ width: 100 }} />
-                </Box> */}
-                
                 <Text fontWeight={600} size="xxl">No players yet</Text>
               </Box>
             </>
@@ -86,13 +93,19 @@ export function PreGameLobby(props: { role: 'host' | 'player'; session: ReturnTy
       </Box>
 
       {props.role === 'host' && (
-        <Box paddingTop="l">
+        <>
+          <Box paddingLeft="m" paddingRight="s" paddingTop="m" justifyContent="center" direction="vertical">
+            <Input autofocus label="Company Name" value={companyName} setValue={(companyName) => setCompanyName(companyName)} />
+          </Box>
 
-          {phase === 'pre-game' && (
-            <Button onClick={() => session.startGame()} disabled={!hasPlayers}>Start Game</Button>
-          )}
+          <Box paddingTop="xs" direction="vertical">
 
-        </Box>
+            {phase === 'pre-game' && (
+              <Button onClick={() => session.startGame(companyName)} disabled={!hasPlayers || !companyName}>Start Game</Button>
+            )}
+
+          </Box>
+        </>
       )}
 
     </Box>
