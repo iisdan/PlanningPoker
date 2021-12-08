@@ -1,11 +1,9 @@
 import React from 'react';
 import { Box } from '../components/Box';
 import { Button } from '../components/Button';
-import { Input } from '../components/Input';
 import { ProfileImageLarge } from '../components/ProfileImageLarge';
 import { Text } from '../components/Text';
 import { useSession } from '../state/session';
-import { getLocal } from '../utils/localstorage';
 import { copyToClipboard } from '../utils/system';
 
 export function PreGameLobby(props: { role: 'host' | 'player'; session: ReturnType<typeof useSession>; }) {
