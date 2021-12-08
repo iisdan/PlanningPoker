@@ -20,7 +20,7 @@ export const CardImage = styled.img<{ hide?: boolean; shadow?: boolean; }>`
   box-shadow: ${(props) => props.shadow ? '0px 0px 100px black' : 'none'};
   margin-bottom: -5px; /*Card has extra spacing at the bottom*/
   @media (max-width: ${theme.deviceMaxWidths.mobile}px) {
-    width: 120px;
+    width: 100px;
   }
 `;
 

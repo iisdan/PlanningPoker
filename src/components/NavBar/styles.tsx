@@ -6,13 +6,13 @@ export const Container = styled.div`
   width: 100%;
   align-items: center;
   justify-content: center;
-  height: 180px;
+  height: 250px;
   box-sizing: border-box;
   padding-left: ${() => theme.spacing.l}px;
   padding-right: ${() => theme.spacing.l}px;
   z-index: 40;
   @media (max-width: ${theme.deviceMaxWidths.mobile}px) {
-    height: 140px;
+    height: 180px;
   }
 `;
 

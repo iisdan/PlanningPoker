@@ -20,16 +20,16 @@ export function Footer(props: { roomCode: string }) {
           alignItems="flex-end" 
         >
 
-            <Box 
-              width={device === 'mobile' ? '100%' :'200px'} 
-              justifyContent={device === 'mobile' ? 'center' : undefined}
-              paddingBottom={device === 'mobile' ? 'xs' : undefined}
-            >
-              <Text size="xs" color="secondary">
-                {/* <Link to="https://buymeacoffee.com/dannnnn" newTab>🍺</Link> */}
-                Please play responsibly            
-              </Text>
-            </Box>
+            {device !== 'mobile' && (
+              <Box 
+                width={'200px'} 
+              >
+                <Text size="xs" color="secondary">
+                  {/* <Link to="https://buymeacoffee.com/dannnnn" newTab>🍺</Link> */}
+                  Please play responsibly            
+                </Text>
+              </Box>
+            )}
 
           <Box paddingBottom={device === 'mobile' ? 'xs' : undefined}>
 

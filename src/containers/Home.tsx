@@ -58,8 +58,8 @@ export function Home(props: { session: ReturnType<typeof useSession>; }) {
                 </Box>
               </Box>
               
-              <Box direction="vertical" alignItems="center">
-                <Text size="xl" fontWeight={600}>Planning in the After Times</Text>
+              <Box direction="vertical" justifyContent="center" alignItems="center">
+                <Text size="xl" fontWeight={600} align="center">Planning in the After Times</Text>
                 <Box paddingTop="s">
                   <Text size="s" color="secondary" align="center">
                     A fast and easy way to score tasks in the post-apocalyptic world. 
