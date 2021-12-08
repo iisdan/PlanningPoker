@@ -32,6 +32,8 @@ export function useSession() {
       let updatedGame = { ...game! };
       updatedGame.phase = 'selecting';
       updateGame(updatedGame);
+      realtimeDatabase.logEvent('game_started', { gameCode: game?.code })
+      realtimeDatabase.logEvent('round_started', { gameCode: game?.code })
     }
 
     const flipCards = () => {
@@ -51,6 +53,8 @@ export function useSession() {
       });
   
       updateGame(updatedGame);
+
+      realtimeDatabase.logEvent('round_started', { gameCode: game?.code })
     }
 
     function createGame() {
