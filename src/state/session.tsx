@@ -55,12 +55,10 @@ export function useSession() {
 
     function createGame() {
       const currentDate = moment().toISOString();
-
-      realtimeDatabase.logEvent('Game created', {
-        date: currentDate,
-      })
-      
       const code = generateUUID({ uppercase: true, length: 5 });
+
+      realtimeDatabase.logEvent('game_created', { code })
+
       updateGame({
         code,
         date: currentDate,
@@ -85,6 +83,8 @@ export function useSession() {
       let hasAddedMe = false;
       code = code.toUpperCase();
       const myId = me.id;
+      realtimeDatabase.logEvent('game_joined', { gameCode: code, name: me.name, role: me.role })
+
       watchGame(code, (game: Game) => {
         if (game) {
 
