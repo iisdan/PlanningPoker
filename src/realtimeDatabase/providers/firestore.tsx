@@ -1,5 +1,6 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
+import "firebase/compat/analytics";
 import { DataProvider } from '..';
 
 export class FirestoreProvider implements DataProvider {
@@ -8,6 +9,11 @@ export class FirestoreProvider implements DataProvider {
 
   constructor(config: object) {
     this.app = firebase.initializeApp(config);
+  }
+
+  public logEvent(eventName: string, params: any) {
+    const analytics = this.app.analytics();
+    analytics.logEvent(eventName, params);
   }
 
   public watch(collection: string, id: string, callback: (data: any) => void) {

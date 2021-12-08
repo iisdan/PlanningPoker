@@ -6,6 +6,7 @@ export interface DataProvider {
   watch: <T>(collection: string, id: string, callback: (data: T) => void) => void;
   set: (collection: string, id: string, data: any) => void;
   delete: (collection: string, id: string) => void;
+  logEvent: (eventName: string, params: any) => void;
 }
 
 function factory($provider: 'firestore' | 'realtimedb') {

@@ -54,10 +54,16 @@ export function useSession() {
     }
 
     function createGame() {
+      const currentDate = moment().toISOString();
+
+      realtimeDatabase.logEvent('Game created', {
+        date: currentDate,
+      })
+      
       const code = generateUUID({ uppercase: true, length: 5 });
       updateGame({
         code,
-        date: moment().toISOString(),
+        date: currentDate,
         players: {},
         phase: 'pre-game',
       })
