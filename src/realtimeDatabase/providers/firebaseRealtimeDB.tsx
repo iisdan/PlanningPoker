@@ -17,7 +17,10 @@ export class FirebaseRealtimeDBProvider implements DataProvider {
   }
 
   public logEvent(eventName: string, params?: any) {
-    logEvent(this.analytics, eventName, params);
+    const isLocal = window.location.href.indexOf('local') !== -1;
+    if (!isLocal) {
+      logEvent(this.analytics, eventName, params);
+    }
   }
 
   public watch(collection: string, id: string, callback: (data: any) => void) {
