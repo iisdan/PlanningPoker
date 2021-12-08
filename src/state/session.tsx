@@ -49,7 +49,7 @@ export function useSession() {
       const playerIds = Object.keys(game!.players);
   
       playerIds.forEach((playerId) => {
-        updatedGame.players[playerId].selectedCard = null
+        updatedGame.players[playerId].selectedCard = null;
       });
   
       updateGame(updatedGame);
@@ -77,10 +77,9 @@ export function useSession() {
         }
       })
 
-      // Delete the game - not sure if we want to do this, use for analytics? 
-      // window.onbeforeunload = (e) => {
-        // realtimeDatabase.delete('games', code);
-      // }
+      window.onbeforeunload = (e) => {
+        realtimeDatabase.delete('games', code);
+      }
     } 
 
     function joinGame(code: string, me: Player) {
@@ -104,8 +103,8 @@ export function useSession() {
           saveLocal('userData', me);
 
         } else {
-          alert('Cant find game')
-          // window.location.reload();
+          alert('Can\'t find game')
+          window.location.reload();
         }
       });
 
