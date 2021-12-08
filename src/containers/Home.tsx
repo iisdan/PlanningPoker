@@ -13,7 +13,8 @@ import { useDeviceType } from '../hooks/useDeviceType';
 
 export function Home(props: { session: ReturnType<typeof useSession>; }) {
 
-  const [currentState, setCurrentState] = React.useState<'join' | 'deciding'>('deciding');
+  const [currentState, setCurrentState] = React.useState<'join' | 'create' | 'deciding'>('deciding');
+  const [companyName, setCompanyName] = React.useState('');
   const [name, setName] = React.useState('');
   const [roomCode, setRoomCode] = React.useState('');
   const [role, setRole] = React.useState('Developer');
@@ -26,6 +27,13 @@ export function Home(props: { session: ReturnType<typeof useSession>; }) {
       setName(previousUserData.name)
       setRole(previousUserData.role)
       setProfileImage(previousUserData.profileImage)
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const hostData = getLocal<{ companyName: string; }>('hostData');
+    if (hostData) {
+      setCompanyName(hostData.companyName)
     }
   }, []);
 
@@ -69,11 +77,44 @@ export function Home(props: { session: ReturnType<typeof useSession>; }) {
 
               <Box direction="horizontal" paddingTop="m" alignItems="center" justifyContent="center">
                 <Box paddingRight="s">
-                  <Button onClick={() => props.session.createGame()}>Create Game</Button>
+                  <Button onClick={() => setCurrentState('create')}>Create Game</Button>
                 </Box>
                 <Box >
                   <Button onClick={() => setCurrentState('join')}>Join Game</Button>
                 </Box>
+              </Box>
+
+            </>
+          )}
+
+          {currentState === 'create' && (
+            <>
+              <Box direction="vertical" alignItems="center">
+                <Text size="xl" fontWeight={600}>Create Game</Text>
+                {/* <Box paddingTop="s">
+                  <Text size="s" color="secondary" align="center">Enter the room code below to join the game.</Text>
+                </Box> */}
+              </Box>
+
+              <Box paddingLeft="s" paddingRight="s" paddingTop="m" justifyContent="center" direction="vertical">
+                <Input autofocus label="Company name" value={companyName} setValue={(companyName) => setCompanyName(companyName)} />
+              </Box>
+
+              <Box direction="horizontal" paddingTop={deviceType === 'mobile' ? 'xs' : 'm'} alignItems="center" justifyContent="center">
+                
+                <Box paddingRight="s">
+                  <Button onClick={() => setCurrentState('deciding')}>Back</Button>
+                </Box>
+
+                <Button 
+                  disabled={!companyName}
+                  onClick={() => {
+                    props.session.createGame(companyName);
+                  }}
+                >
+                  Create
+                </Button>
+                
               </Box>
 
             </>

@@ -18,15 +18,6 @@ export function PreGameLobby(props: { role: 'host' | 'player'; session: ReturnTy
   const hasPlayers = Boolean(Object.values(players).length);
 
   const [copied, setCopied] = React.useState(false);
-  const [companyName, setCompanyName] = React.useState('');
-
-
-  React.useEffect(() => {
-    const hostData = getLocal<{ companyName: string; }>('hostData');
-    if (hostData) {
-      setCompanyName(hostData.companyName)
-    }
-  }, []);
 
   return (
     <Box wrap alignItems="center" justifyContent="center" direction="vertical">
@@ -57,7 +48,7 @@ export function PreGameLobby(props: { role: 'host' | 'player'; session: ReturnTy
 
           {props.session.type === 'host' && (
             <>
-              <Box paddingTop="m">
+              <Box paddingTop="s">
                 {!copied && (
                   <Text size="xs" color="secondary" align="center">
                     Room Code
@@ -94,14 +85,10 @@ export function PreGameLobby(props: { role: 'host' | 'player'; session: ReturnTy
 
       {props.role === 'host' && (
         <>
-          <Box paddingLeft="m" paddingRight="s" paddingTop="m" justifyContent="center" direction="vertical">
-            <Input autofocus label="Company Name" value={companyName} setValue={(companyName) => setCompanyName(companyName)} />
-          </Box>
-
-          <Box paddingTop="xs" direction="vertical">
+          <Box paddingTop="m" direction="vertical">
 
             {phase === 'pre-game' && (
-              <Button onClick={() => session.startGame(companyName)} disabled={!hasPlayers || !companyName}>Start Game</Button>
+              <Button onClick={() => session.startGame()} disabled={!hasPlayers}>Start Round</Button>
             )}
 
           </Box>
