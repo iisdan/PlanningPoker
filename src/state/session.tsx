@@ -103,8 +103,12 @@ export function useSession() {
           saveLocal('userData', me);
 
         } else {
-          alert('Can\'t find game')
-          window.location.reload();
+          if (hasAddedMe) {
+            alert('The host has left the game')
+            window.location.reload();
+          } else {
+            alert("Can't find game")
+          }
         }
       });
 
