@@ -10,6 +10,7 @@ import { v4 as uuid} from 'uuid';
 import { getLocal } from '../utils/localstorage';
 import { Card } from '../components/Card';
 import { useDeviceType } from '../hooks/useDeviceType';
+import { realtimeDatabase } from '../realtimeDatabase';
 
 export function Home(props: { session: ReturnType<typeof useSession>; }) {
 
@@ -20,6 +21,15 @@ export function Home(props: { session: ReturnType<typeof useSession>; }) {
   const [role, setRole] = React.useState('Developer');
   const [profileImage, setProfileImage] = React.useState('https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/2-space-cat-riding-unicorn-laser-tacos-and-rainbow-random-galaxy.jpg');
   const deviceType = useDeviceType();
+
+  React.useEffect(() => {
+    if (currentState === 'join') {
+      realtimeDatabase.logEvent('game_join_started', {  })
+    }
+    if (currentState === 'create') {
+      realtimeDatabase.logEvent('game_create_started', {  })
+    }
+  }, [currentState])
 
   React.useEffect(() => {
     const previousUserData = getLocal<Player>('userData');
