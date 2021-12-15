@@ -58,6 +58,12 @@ export function useSession() {
     }
 
     function createGame(companyName: string) {
+
+      if (!companyName) {
+        alert('No comapny name set')
+        return;
+      }
+
       const currentDate = moment().toISOString();
       const code = generateUUID({ uppercase: true, length: 5 });
 
@@ -84,6 +90,12 @@ export function useSession() {
     } 
 
     function joinGame(code: string, me: Player) {
+
+      if (!code) {
+        alert('No game code set')
+        return;
+      }
+
       let hasAddedMe = false;
       code = code.toUpperCase();
       const myId = me.id;
