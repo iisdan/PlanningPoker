@@ -3,12 +3,11 @@ import { Footer } from './containers/Footer';
 import { Nav } from './containers/Nav';
 import { Viewport } from './components/Viewport';
 import { GameView } from './containers/GameView';
-import { Provider, useSession, useSessionNew } from './state/session';
+import { useSession } from './state/session';
 import { CardSelectView } from './containers/CardSelectView';
 import { Home } from './containers/Home';
 import { PreGameLobby } from './containers/PreGameLobby';
 import { useDeviceType } from './hooks/useDeviceType';
-import { useEffect } from 'react';
 
 function App() {
 
