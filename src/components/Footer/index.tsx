@@ -7,10 +7,8 @@ interface Props {
 
 export const Footer = (props: Props) => {
   return (
-    <>
-      <Container>
-        {props.children}
-      </Container>
-    </>
+    <Container>
+      {props.children}
+    </Container>
   );
 }

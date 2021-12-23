@@ -25,11 +25,9 @@ export function PreGameLobby() {
 
         <Box direction="vertical" alignItems="center" justifyContent="center" wrap>
           {!hasPlayers && (
-            <>
-              <Box direction="vertical" alignItems="center" justifyContent="center">
-                <Text fontWeight={600} size="xxl">No players yet</Text>
-              </Box>
-            </>
+            <Box direction="vertical" alignItems="center" justifyContent="center">
+              <Text fontWeight={600} size="xxl">No players yet</Text>
+            </Box>
           )}
 
           {hasPlayers && (
@@ -84,15 +82,13 @@ export function PreGameLobby() {
       </Box>
 
       {type === 'host' && (
-        <>
-          <Box paddingTop="m" direction="vertical">
+        <Box paddingTop="m" direction="vertical">
 
-            {phase === 'pre-game' && (
-              <Button onClick={() => startGame()} disabled={!hasPlayers}>Start Round</Button>
-            )}
+          {phase === 'pre-game' && (
+            <Button onClick={() => startGame()} disabled={!hasPlayers}>Start Round</Button>
+          )}
 
-          </Box>
-        </>
+        </Box>
       )}
 
     </Box>

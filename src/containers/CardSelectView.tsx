@@ -22,48 +22,45 @@ export function CardSelectView() {
 
   const open = !game?.players[myId]?.selectedCard && game?.phase === 'selecting';
   return (
-    <>
-      <Overlay open={open}>
-        <MaxWidth>
-          <Box direction="vertical" justifyContent="center" alignItems="center" overflowY="auto">
+    <Overlay open={open}>
+      <MaxWidth>
+        <Box direction="vertical" justifyContent="center" alignItems="center" overflowY="auto">
 
-            <Box paddingBottom="m" direction='vertical' alignItems="center">
-              <Text size="l" color='primary' fontWeight={600}>
-                {currentCard?.title || 'How Complex?'}
-              </Text>
-              <Box paddingTop="xs" >
-                <MaxWidth small>
-                  <Text size="s" color='secondary' fontWeight={300} align="center">
-                    {currentCard?.description || 'Select the card that best fits the task'}
-                  </Text>
-                </MaxWidth>
-              </Box>
+          <Box paddingBottom="m" direction='vertical' alignItems="center">
+            <Text size="l" color='primary' fontWeight={600}>
+              {currentCard?.title || 'How Complex?'}
+            </Text>
+            <Box paddingTop="xs" >
+              <MaxWidth small>
+                <Text size="s" color='secondary' fontWeight={300} align="center">
+                  {currentCard?.description || 'Select the card that best fits the task'}
+                </Text>
+              </MaxWidth>
             </Box>
-
-            <Box height={deviceType === 'mobile' ? 'calc(100vh - 200px)' : undefined} direction="horizontal" justifyContent="center" alignItems="center" wrap>
-
-                {cards.map(card => (
-                  <Box padding="xs" direction="vertical" alignItems="center">
-                    <div 
-                      onMouseOver={() => setCurrentCard(card)} 
-                      onMouseOut={() => setCurrentCard(null)} 
-                      onClick={() => {
-                        selectCard(myId, card.card)
-                      }} 
-                    >
-                      <HoverEffect>
-                        <Card card={card.card} flipped={true} />
-                      </HoverEffect>
-                    </div>
-                  </Box>
-                ))}
-                
-            </Box>
-
           </Box>
-        </MaxWidth>
-      </Overlay>
 
-    </>
+          <Box height={deviceType === 'mobile' ? 'calc(100vh - 200px)' : undefined} direction="horizontal" justifyContent="center" alignItems="center" wrap>
+
+              {cards.map(card => (
+                <Box padding="xs" direction="vertical" alignItems="center">
+                  <div 
+                    onMouseOver={() => setCurrentCard(card)} 
+                    onMouseOut={() => setCurrentCard(null)} 
+                    onClick={() => {
+                      selectCard(myId, card.card)
+                    }} 
+                  >
+                    <HoverEffect>
+                      <Card card={card.card} flipped={true} />
+                    </HoverEffect>
+                  </div>
+                </Box>
+              ))}
+              
+          </Box>
+
+        </Box>
+      </MaxWidth>
+    </Overlay>
   );
 }

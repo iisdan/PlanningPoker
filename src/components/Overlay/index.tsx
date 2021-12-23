@@ -8,12 +8,10 @@ interface Props {
 
 export const Overlay = (props: Props) => {
   return (
-    <>
-      <Container open={props.open}>
-        <InnerContainer open={props.open}>
-          {props.children}
-        </InnerContainer>
-      </Container>
-    </>
+    <Container open={props.open}>
+      <InnerContainer open={props.open}>
+        {props.children}
+      </InnerContainer>
+    </Container>
   );
 }
