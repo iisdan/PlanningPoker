@@ -7,22 +7,18 @@ function InitialState() {
   const [role, setRole] = useState<'player' | 'host' | null>(null);
   const [me, setMe] = useState<Player | null>(null);
 
-  const sessionContext = React.useMemo(() => ({ 
+  return React.useMemo(() => ({ 
     role, setRole,
     me, setMe
   }), [
     role, setRole,
     me, setMe,
   ]);
-
-  return sessionContext;
 }
 
 export function MeStoreProvider(props: { children: React.ReactElement }) {
-  const state = InitialState();
-  
   return (
-    <MeStore.Provider value={state}>
+    <MeStore.Provider value={InitialState()}>
       {props.children}
     </MeStore.Provider>
   );

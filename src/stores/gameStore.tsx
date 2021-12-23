@@ -6,20 +6,16 @@ const Store = React.createContext<ReturnType<typeof InitialState> | null>(null);
 function InitialState() {
   const [game, setGame] = useState<Game | null>(null);
 
-  const sessionContext = React.useMemo(() => ({ 
+  return React.useMemo(() => ({ 
     game, setGame,
   }), [
     game, setGame,
   ]);
-
-  return sessionContext;
 }
 
 export function GameStoreProvider(props: { children: React.ReactElement }) {
-  const state = InitialState();
-  
   return (
-    <Store.Provider value={state}>
+    <Store.Provider value={InitialState()}>
       {props.children}
     </Store.Provider>
   );
