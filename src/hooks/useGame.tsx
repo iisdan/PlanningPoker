@@ -21,12 +21,12 @@ function pushGame(code: string, game: Game) {
 export function useGame() {
   const gameStore = useGameStore();
   
-  const updateGame = (game: Game) => {
+  function updateGame(game: Game) {
     gameStore.setGame(game);
     pushGame(game.code, game);
   }
 
-  const startGame = () => {
+  function startGame() {
     let updatedGame = { ...gameStore.game! };
     updatedGame.phase = 'selecting';
 
@@ -36,14 +36,14 @@ export function useGame() {
     realtimeDatabase.logEvent('round_started', { gameCode: gameStore.game?.code })
   }
 
-  const flipCards = () => {
+  function flipCards() {
     let updatedGame = { ...gameStore.game! };
     updatedGame.phase = 'reviewing';
 
     updateGame(updatedGame);
   }
 
-  const reset = () => {
+  function reset() {
     let game = { ...gameStore.game! };
     game.phase = 'selecting';
 

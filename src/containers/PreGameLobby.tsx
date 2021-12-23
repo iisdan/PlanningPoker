@@ -10,7 +10,7 @@ import { copyToClipboard } from '../utils/system';
 export function PreGameLobby() {
 
   const { game, startGame } = useGame();
-  const { type } = useMe();
+  const { role } = useMe();
 
   const players = game?.players || {};
   const phase = game?.phase;
@@ -44,7 +44,7 @@ export function PreGameLobby() {
             </Box>
           )}
 
-          {type === 'host' && (
+          {role === 'host' && (
             <>
               <Box paddingTop="s">
                 {!copied && (
@@ -69,7 +69,7 @@ export function PreGameLobby() {
             </>
           )}
 
-          {type === 'player' && (
+          {role === 'player' && (
             <Box paddingTop="m">
               <Text size="m" color="secondary" align="center">
                 Waiting for the host
@@ -81,7 +81,7 @@ export function PreGameLobby() {
 
       </Box>
 
-      {type === 'host' && (
+      {role === 'host' && (
         <Box paddingTop="m" direction="vertical">
 
           {phase === 'pre-game' && (

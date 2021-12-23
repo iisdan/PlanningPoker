@@ -4,14 +4,14 @@ import { Player } from "../interfaces";
 const MeStore = React.createContext<ReturnType<typeof InitialState> | null>(null);
 
 function InitialState() {
-  const [type, setType] = useState<'player' | 'host' | null>(null);
+  const [role, setRole] = useState<'player' | 'host' | null>(null);
   const [me, setMe] = useState<Player | null>(null);
 
   const sessionContext = React.useMemo(() => ({ 
-    type, setType,
+    role, setRole,
     me, setMe
   }), [
-    type, setType,
+    role, setRole,
     me, setMe,
   ]);
 

@@ -34,11 +34,11 @@ function App() {
           <PreGameLobby />
         )}
 
-        {me.type === 'player' && game?.phase !== 'pre-game' && (
+        {me.role === 'player' && game?.phase !== 'pre-game' && (
           <CardSelectView />
         )}
 
-        {me.type && game?.phase !== 'pre-game' && (
+        {me.role && game?.phase !== 'pre-game' && (
           <GameView />
         )}
 

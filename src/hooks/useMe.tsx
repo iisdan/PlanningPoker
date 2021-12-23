@@ -7,8 +7,8 @@ export function useMe() {
   
   return {
     me: meStore.me,
-    type: meStore.type,
-    setType: meStore.setType,
+    role: meStore.role,
+    setRole: meStore.setRole,
     setMe: (myInformation: Player) => {
       meStore.setMe(myInformation)
       saveLocal('userData', myInformation)

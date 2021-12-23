@@ -16,13 +16,13 @@ import { useMe } from '../hooks/useMe';
 export function Home() {
 
   const { createGame, joinGame } = useGame();
-  const { setType, setMe } = useMe();
+  const { setRole, setMe } = useMe();
 
   const [currentState, setCurrentState] = React.useState<'join' | 'create' | 'deciding'>('deciding');
   const [companyName, setCompanyName] = React.useState('');
   const [name, setName] = React.useState('');
   const [roomCode, setRoomCode] = React.useState('');
-  const [role, setRole] = React.useState('Developer');
+  const [companyRole, setCompanyRole] = React.useState('Developer');
   const [profileImage, setProfileImage] = React.useState('https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/2-space-cat-riding-unicorn-laser-tacos-and-rainbow-random-galaxy.jpg');
   const deviceType = useDeviceType();
 
@@ -39,7 +39,7 @@ export function Home() {
     const previousUserData = getLocal<Player>('userData');
     if (previousUserData) {
       setName(previousUserData.name)
-      setRole(previousUserData.role)
+      setCompanyRole(previousUserData.role)
       setProfileImage(previousUserData.profileImage)
     }
   }, []);
@@ -51,7 +51,7 @@ export function Home() {
     }
   }, []);
 
-  const canStart = name && roomCode && role && profileImage;
+  const canStart = name && roomCode && companyRole && profileImage;
 
   const [firstCardFlipped, setFirstCardFlipped] = React.useState(false);
   const [secondCardFlipped, setSecondCardFlipped] = React.useState(false);
@@ -121,7 +121,7 @@ export function Home() {
                   disabled={!companyName}
                   onClick={() => {
                     createGame(companyName);
-                    setType('host');
+                    setRole('host');
                   }}
                 >
                   Create
@@ -144,7 +144,7 @@ export function Home() {
               <Box paddingLeft="s" paddingRight="s" paddingTop="m" justifyContent="center" direction="vertical">
                 <Input autofocus label="Room Code" value={roomCode} setValue={(roomCode) => setRoomCode(roomCode)} />
                 <Input label="Name" value={name} setValue={(name) => setName(name)} />
-                <Input label="Role" value={role} setValue={(role) => setRole(role)} />
+                <Input label="Role" value={companyRole} setValue={(companyRole) => setCompanyRole(companyRole)} />
                 <Input label="Profile Picture URL" value={profileImage} setValue={(profileImage) => setProfileImage(profileImage)} />
               </Box>
 
@@ -160,12 +160,12 @@ export function Home() {
                     const myInformation = { 
                       id: uuid(),
                       name,
-                      role,
+                      role: companyRole,
                       profileImage,
                       selectedCard: null
                     };
                     joinGame(roomCode, myInformation);
-                    setType('player');
+                    setRole('player');
                     setMe(myInformation);
                   }}
                 >

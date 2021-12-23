@@ -9,7 +9,7 @@ import { useMe } from '../hooks/useMe';
 export function GameView() {
 
   const { game, flipCards, reset, selectCard } = useGame();
-  const { me, type } = useMe();
+  const { me, role } = useMe();
 
   const players = game?.players || {};
   const phase = game?.phase;
@@ -47,7 +47,7 @@ export function GameView() {
 
       </Box>
 
-      {game && type === 'host' && (
+      {game && role === 'host' && (
         <Box paddingTop="l" justifyContent="center">
 
           {phase === 'selecting' && (
@@ -61,7 +61,7 @@ export function GameView() {
         </Box>
       )}
 
-      {game && type === 'player' && (
+      {game && role === 'player' && (
         <Box paddingTop="l" justifyContent="center">
 
           <Button disabled={phase !== 'selecting'} onClick={() => selectCard(myId!, null)}>Change Card</Button>
