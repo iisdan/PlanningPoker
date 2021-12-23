@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import { Game } from '../interfaces';
 
-const Store = React.createContext<ReturnType<typeof InitialState> | null>(null);
+const Context = React.createContext<ReturnType<typeof Store> | null>(null);
 
-function InitialState() {
+function Store() {
   const [game, setGame] = useState<Game | null>(null);
 
   return React.useMemo(() => ({ 
@@ -15,12 +15,12 @@ function InitialState() {
 
 export function GameStoreProvider(props: { children: React.ReactElement }) {
   return (
-    <Store.Provider value={InitialState()}>
+    <Context.Provider value={Store()}>
       {props.children}
-    </Store.Provider>
+    </Context.Provider>
   );
 }
 
 export function useGameStore() {
-  return React.useContext(Store)!;
+  return React.useContext(Context)!;
 }
