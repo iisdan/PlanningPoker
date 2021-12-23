@@ -3,16 +3,17 @@ import { Box } from '../components/Box';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { ProfileImage } from '../components/ProfileImage';
-import { useSession } from '../state/session';
+import { useGame } from '../hooks/useGame';
+import { useMe } from '../hooks/useMe';
 
 export function GameView() {
 
-  const session = useSession();
-  const game = session.game;
+  const { game, flipCards, reset, selectCard } = useGame();
+  const { me, type } = useMe();
+
   const players = game?.players || {};
   const phase = game?.phase;
-  const myId = session.myId;
-  const role = session.type;
+  const myId = me?.id!;
 
   const numberOfCardsSelected = React.useMemo(() => {
     const playersWithCardsSelected = Object.values(game?.players || {}).filter(player => Boolean(player.selectedCard));
@@ -46,24 +47,24 @@ export function GameView() {
 
       </Box>
 
-      {role === 'host' && (
+      {game && type === 'host' && (
         <Box paddingTop="l" justifyContent="center">
 
           {phase === 'selecting' && (
-            <Button onClick={() => session.flipCards()} disabled={numberOfCardsSelected === 0}>Flip</Button>
+            <Button onClick={() => flipCards()} disabled={numberOfCardsSelected === 0}>Flip</Button>
           )}
 
           {phase === 'reviewing' && (
-            <Button onClick={() => session.reset()}>Next Round</Button>
+            <Button onClick={() => reset()}>Next Round</Button>
           )}
 
         </Box>
       )}
 
-      {role === 'player' && (
+      {game && type === 'player' && (
         <Box paddingTop="l" justifyContent="center">
 
-          <Button disabled={phase !== 'selecting'} onClick={() => session.setSelectedCard(myId!, null)}>Change Card</Button>
+          <Button disabled={phase !== 'selecting'} onClick={() => selectCard(myId!, null)}>Change Card</Button>
 
         </Box>
       )}

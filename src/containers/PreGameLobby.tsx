@@ -3,17 +3,17 @@ import { Box } from '../components/Box';
 import { Button } from '../components/Button';
 import { ProfileImageLarge } from '../components/ProfileImageLarge';
 import { Text } from '../components/Text';
-import { useSession } from '../state/session';
+import { useGame } from '../hooks/useGame';
+import { useMe } from '../hooks/useMe';
 import { copyToClipboard } from '../utils/system';
 
 export function PreGameLobby() {
 
-  const session = useSession();
+  const { game, startGame } = useGame();
+  const { type } = useMe();
 
-  const game = session.game;
   const players = game?.players || {};
   const phase = game?.phase;
-  const role = session.type;
 
   const hasPlayers = Boolean(Object.values(players).length);
 
@@ -46,7 +46,7 @@ export function PreGameLobby() {
             </Box>
           )}
 
-          {session.type === 'host' && (
+          {type === 'host' && (
             <>
               <Box paddingTop="s">
                 {!copied && (
@@ -71,7 +71,7 @@ export function PreGameLobby() {
             </>
           )}
 
-          {session.type === 'player' && (
+          {type === 'player' && (
             <Box paddingTop="m">
               <Text size="m" color="secondary" align="center">
                 Waiting for the host
@@ -83,12 +83,12 @@ export function PreGameLobby() {
 
       </Box>
 
-      {role === 'host' && (
+      {type === 'host' && (
         <>
           <Box paddingTop="m" direction="vertical">
 
             {phase === 'pre-game' && (
-              <Button onClick={() => session.startGame()} disabled={!hasPlayers}>Start Round</Button>
+              <Button onClick={() => startGame()} disabled={!hasPlayers}>Start Round</Button>
             )}
 
           </Box>

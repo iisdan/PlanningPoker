@@ -3,15 +3,17 @@ import { Footer } from './containers/Footer';
 import { Nav } from './containers/Nav';
 import { Viewport } from './components/Viewport';
 import { GameView } from './containers/GameView';
-import { useSession } from './state/session';
+import { useGame } from './hooks/useGame';
 import { CardSelectView } from './containers/CardSelectView';
 import { Home } from './containers/Home';
 import { PreGameLobby } from './containers/PreGameLobby';
 import { useDeviceType } from './hooks/useDeviceType';
+import { useMe } from './hooks/useMe';
 
 function App() {
 
-  const session = useSession();
+  const session = useGame();
+  const me = useMe();
   const game = session.game;
   const device = useDeviceType();
 
@@ -32,11 +34,11 @@ function App() {
           <PreGameLobby />
         )}
 
-        {session.type === 'player' && game?.phase !== 'pre-game' && (
+        {me.type === 'player' && game?.phase !== 'pre-game' && (
           <CardSelectView />
         )}
 
-        {session.type && game?.phase !== 'pre-game' && (
+        {me.type && game?.phase !== 'pre-game' && (
           <GameView />
         )}
 

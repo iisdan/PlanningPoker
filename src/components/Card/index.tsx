@@ -62,12 +62,12 @@ export const cards: ICard[] = [
 ];
 
 export const Card = (props: Props) => {
-  const [selectedCard, setSelectedCard] = useState<number | 'back' | 'infinite'>(1);
+  const [selectedCard, selectCard] = useState<number | 'back' | 'infinite'>(1);
   const cardPath = selectedCard ? require(`./cards/${selectedCard}.svg`).default : require(`./cards/back.svg`).default;
 
   useEffect(() => {
     if (props.card) {
-      setSelectedCard(props.card);
+      selectCard(props.card);
     }
   }, [props.card]);
 

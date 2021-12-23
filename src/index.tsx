@@ -2,13 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { Provider } from './state/session';
+import { GameStoreProvider } from './stores/gameStore';
+import { MeStoreProvider } from './stores/meStore';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider>
-      <App />
-    </Provider>
+    <MeStoreProvider>
+      <GameStoreProvider>
+        <App />
+      </GameStoreProvider>
+    </MeStoreProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

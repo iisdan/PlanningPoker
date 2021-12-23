@@ -5,20 +5,22 @@ import { HoverEffect } from '../components/HoverEffect';
 import { MaxWidth } from '../components/MaxWidth';
 import { Overlay } from '../components/Overlay';
 import { Text } from '../components/Text';
-import { useSession } from '../state/session';
+import { useGame } from '../hooks/useGame';
 import { Card as ICard } from '../interfaces';
 import { useDeviceType } from '../hooks/useDeviceType';
+import { useMe } from '../hooks/useMe';
 
 export function CardSelectView() {
 
-  const session = useSession();
-  const game = session.game;
-  const myId = session.myId!;  
+  const { game, selectCard } = useGame();
+  const { me } = useMe();
+
+  const myId = me?.id!;  
 
   const [currentCard, setCurrentCard] = React.useState<ICard | null>(null); 
   const deviceType = useDeviceType();
 
-  const open = !game?.players[myId].selectedCard && game?.phase === 'selecting';
+  const open = !game?.players[myId]?.selectedCard && game?.phase === 'selecting';
   return (
     <>
       <Overlay open={open}>
@@ -46,7 +48,7 @@ export function CardSelectView() {
                       onMouseOver={() => setCurrentCard(card)} 
                       onMouseOut={() => setCurrentCard(null)} 
                       onClick={() => {
-                        session.setSelectedCard(myId, card.card)
+                        selectCard(myId, card.card)
                       }} 
                     >
                       <HoverEffect>

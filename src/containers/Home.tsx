@@ -5,16 +5,18 @@ import { Input } from '../components/Input';
 import { MaxWidth } from '../components/MaxWidth';
 import { Text } from '../components/Text';
 import { Player } from '../interfaces';
-import { useSession } from '../state/session';
+import { useGame } from '../hooks/useGame';
 import { v4 as uuid} from 'uuid';
 import { getLocal } from '../utils/localstorage';
 import { Card } from '../components/Card';
 import { useDeviceType } from '../hooks/useDeviceType';
 import { realtimeDatabase } from '../realtimeDatabase';
+import { useMe } from '../hooks/useMe';
 
 export function Home() {
 
-  const session = useSession();
+  const { createGame, joinGame } = useGame();
+  const { setType, setMe } = useMe();
 
   const [currentState, setCurrentState] = React.useState<'join' | 'create' | 'deciding'>('deciding');
   const [companyName, setCompanyName] = React.useState('');
@@ -118,7 +120,8 @@ export function Home() {
                 <Button 
                   disabled={!companyName}
                   onClick={() => {
-                    session.createGame(companyName);
+                    createGame(companyName);
+                    setType('host');
                   }}
                 >
                   Create
@@ -154,14 +157,17 @@ export function Home() {
                 <Button 
                   disabled={!canStart}
                   onClick={() => {
-                    session.joinGame(roomCode, { 
-                    id: uuid(),
-                    name,
-                    role,
-                    profileImage,
-                    selectedCard: null
-                  }
-                  )}}
+                    const myInformation = { 
+                      id: uuid(),
+                      name,
+                      role,
+                      profileImage,
+                      selectedCard: null
+                    };
+                    joinGame(roomCode, myInformation);
+                    setType('player');
+                    setMe(myInformation);
+                  }}
                 >
                   Join
                 </Button>
