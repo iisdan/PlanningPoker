@@ -12,9 +12,8 @@ import { useMe } from './hooks/useMe';
 
 function App() {
 
-  const session = useGame();
-  const me = useMe();
-  const game = session.game;
+  const { game } = useGame();
+  const { role } = useMe();
   const device = useDeviceType();
 
   const shouldVerticallyCenter = device !== 'mobile' || !Boolean(game?.phase);
@@ -34,11 +33,11 @@ function App() {
           <PreGameLobby />
         )}
 
-        {me.role === 'player' && game?.phase !== 'pre-game' && (
+        {role === 'player' && game?.phase !== 'pre-game' && (
           <CardSelectView />
         )}
 
-        {me.role && game?.phase !== 'pre-game' && (
+        {role && game?.phase !== 'pre-game' && (
           <GameView />
         )}
 
