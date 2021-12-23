@@ -3,15 +3,15 @@ import { Footer } from './containers/Footer';
 import { Nav } from './containers/Nav';
 import { Viewport } from './components/Viewport';
 import { GameView } from './containers/GameView';
-import { useSession } from './state/session';
+import { Provider, useSession, useSessionNew } from './state/session';
 import { CardSelectView } from './containers/CardSelectView';
 import { Home } from './containers/Home';
 import { PreGameLobby } from './containers/PreGameLobby';
 import { useDeviceType } from './hooks/useDeviceType';
+import { useEffect } from 'react';
 
 function App() {
 
-  // todo: change useSession to use useConext rather than passing this around 
   const session = useSession();
   const game = session.game;
   const device = useDeviceType();
@@ -26,22 +26,19 @@ function App() {
       <Box wrap height="100%" direction="vertical" justifyContent={shouldVerticallyCenter ? 'center' : undefined} alignItems="center" overflowY="auto">
         
         {!game && (
-          <Home session={session} />
+          <Home />
         )}
 
         {game?.phase === 'pre-game' && (
-          <PreGameLobby role={session.type!} session={session} />
-        )}
-
-        {session.type === 'host' && game?.phase !== 'pre-game' && (
-          <GameView role='host' session={session} />
+          <PreGameLobby />
         )}
 
         {session.type === 'player' && game?.phase !== 'pre-game' && (
-          <>
-            <CardSelectView session={session} />
-            <GameView role='player' session={session} />
-          </>
+          <CardSelectView />
+        )}
+
+        {session.type && game?.phase !== 'pre-game' && (
+          <GameView />
         )}
 
       </Box>

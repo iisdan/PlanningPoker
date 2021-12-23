@@ -12,7 +12,9 @@ import { Card } from '../components/Card';
 import { useDeviceType } from '../hooks/useDeviceType';
 import { realtimeDatabase } from '../realtimeDatabase';
 
-export function Home(props: { session: ReturnType<typeof useSession>; }) {
+export function Home() {
+
+  const session = useSession();
 
   const [currentState, setCurrentState] = React.useState<'join' | 'create' | 'deciding'>('deciding');
   const [companyName, setCompanyName] = React.useState('');
@@ -101,9 +103,6 @@ export function Home(props: { session: ReturnType<typeof useSession>; }) {
             <>
               <Box direction="vertical" alignItems="center">
                 <Text size="xl" fontWeight={600}>Create Game</Text>
-                {/* <Box paddingTop="s">
-                  <Text size="s" color="secondary" align="center">Enter the room code below to join the game.</Text>
-                </Box> */}
               </Box>
 
               <Box paddingLeft="s" paddingRight="s" paddingTop="m" justifyContent="center" direction="vertical">
@@ -119,7 +118,7 @@ export function Home(props: { session: ReturnType<typeof useSession>; }) {
                 <Button 
                   disabled={!companyName}
                   onClick={() => {
-                    props.session.createGame(companyName);
+                    session.createGame(companyName);
                   }}
                 >
                   Create
@@ -155,7 +154,7 @@ export function Home(props: { session: ReturnType<typeof useSession>; }) {
                 <Button 
                   disabled={!canStart}
                   onClick={() => {
-                    props.session.joinGame(roomCode, { 
+                    session.joinGame(roomCode, { 
                     id: uuid(),
                     name,
                     role,

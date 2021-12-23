@@ -6,12 +6,14 @@ import { Text } from '../components/Text';
 import { useSession } from '../state/session';
 import { copyToClipboard } from '../utils/system';
 
-export function PreGameLobby(props: { role: 'host' | 'player'; session: ReturnType<typeof useSession>; }) {
+export function PreGameLobby() {
 
-  const session = props.session;
+  const session = useSession();
+
   const game = session.game;
   const players = game?.players || {};
   const phase = game?.phase;
+  const role = session.type;
 
   const hasPlayers = Boolean(Object.values(players).length);
 
@@ -44,7 +46,7 @@ export function PreGameLobby(props: { role: 'host' | 'player'; session: ReturnTy
             </Box>
           )}
 
-          {props.session.type === 'host' && (
+          {session.type === 'host' && (
             <>
               <Box paddingTop="s">
                 {!copied && (
@@ -69,7 +71,7 @@ export function PreGameLobby(props: { role: 'host' | 'player'; session: ReturnTy
             </>
           )}
 
-          {props.session.type === 'player' && (
+          {session.type === 'player' && (
             <Box paddingTop="m">
               <Text size="m" color="secondary" align="center">
                 Waiting for the host
@@ -81,7 +83,7 @@ export function PreGameLobby(props: { role: 'host' | 'player'; session: ReturnTy
 
       </Box>
 
-      {props.role === 'host' && (
+      {role === 'host' && (
         <>
           <Box paddingTop="m" direction="vertical">
 

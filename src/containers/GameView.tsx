@@ -5,14 +5,14 @@ import { Card } from '../components/Card';
 import { ProfileImage } from '../components/ProfileImage';
 import { useSession } from '../state/session';
 
-export function GameView(props: { role: 'host' | 'player'; session: ReturnType<typeof useSession>; }) {
+export function GameView() {
 
-  const session = props.session;
+  const session = useSession();
   const game = session.game;
   const players = game?.players || {};
   const phase = game?.phase;
   const myId = session.myId;
-  // const me = game?.players[myId || ''];
+  const role = session.type;
 
   const numberOfCardsSelected = React.useMemo(() => {
     const playersWithCardsSelected = Object.values(game?.players || {}).filter(player => Boolean(player.selectedCard));
@@ -46,7 +46,7 @@ export function GameView(props: { role: 'host' | 'player'; session: ReturnType<t
 
       </Box>
 
-      {props.role === 'host' && (
+      {role === 'host' && (
         <Box paddingTop="l" justifyContent="center">
 
           {phase === 'selecting' && (
@@ -60,7 +60,7 @@ export function GameView(props: { role: 'host' | 'player'; session: ReturnType<t
         </Box>
       )}
 
-      {props.role === 'player' && (
+      {role === 'player' && (
         <Box paddingTop="l" justifyContent="center">
 
           <Button disabled={phase !== 'selecting'} onClick={() => session.setSelectedCard(myId!, null)}>Change Card</Button>

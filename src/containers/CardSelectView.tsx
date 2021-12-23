@@ -9,9 +9,9 @@ import { useSession } from '../state/session';
 import { Card as ICard } from '../interfaces';
 import { useDeviceType } from '../hooks/useDeviceType';
 
-export function CardSelectView(props: { session: ReturnType<typeof useSession>; }) {
+export function CardSelectView() {
 
-  const session = props.session;
+  const session = useSession();
   const game = session.game;
   const myId = session.myId!;  
 
