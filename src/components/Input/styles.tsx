@@ -11,6 +11,7 @@ export const InputElement = styled.input<{  }>`
   display: flex;
   padding: ${theme.spacing.s}px;
   padding-left: 0px;
+  border: none;
   appearance: caret;
 `;
 
