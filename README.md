@@ -1,20 +1,24 @@
-# Planning Poker
+<div style="text-align: center;background-color:black;padding:50px;border-radius:20px;">
+<img src="https://planningpokerintheaftertimes.com/static/media/logo.a0be1bbd.png" alt="drawing" width="400"/>
+</div>
+<br/>
 
-A lit af planning poker app that is super easy to use 
+# Planning Poker in the After Times
 
-## Getting started 
+## Set it up
 
-Install the dependencies 
 ```
 yarn install
 ```
 
-## Start the app
+## Run it
 
 ```
 yarn start
 ```
 
-## Deployment
+## Deploy it
 
-This app will automatically deploy to FireBase hosting when pushed to master
+Deployment to FireBase hosting is automatic when master is updated
+
+<a href="https://PlanningPokerInTheAfterTimes.com" style="color: 29c78a;">PlanningPokerInTheAfterTimes.com</a>

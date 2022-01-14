@@ -51,11 +51,11 @@ export function GameView() {
         <Box paddingTop="l" justifyContent="center">
 
           {phase === 'selecting' && (
-            <Button onClick={() => flipCards()} disabled={numberOfCardsSelected === 0}>Flip</Button>
+            <Button onClick={flipCards} disabled={numberOfCardsSelected === 0}>Flip</Button>
           )}
 
           {phase === 'reviewing' && (
-            <Button onClick={() => reset()}>Next Round</Button>
+            <Button onClick={reset}>Next Round</Button>
           )}
 
         </Box>
@@ -64,7 +64,7 @@ export function GameView() {
       {game && role === 'player' && (
         <Box paddingTop="l" justifyContent="center">
 
-          <Button disabled={phase !== 'selecting'} onClick={() => selectCard(myId!, null)}>Change Card</Button>
+          <Button disabled={phase !== 'selecting'} onClick={() => selectCard(myId, null)}>Change Card</Button>
 
         </Box>
       )}

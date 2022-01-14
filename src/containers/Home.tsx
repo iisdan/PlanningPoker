@@ -4,52 +4,38 @@ import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { MaxWidth } from '../components/MaxWidth';
 import { Text } from '../components/Text';
-import { Player } from '../interfaces';
 import { useGame } from '../hooks/useGame';
 import { v4 as uuid} from 'uuid';
-import { getLocal } from '../utils/localstorage';
 import { Card } from '../components/Card';
 import { useDeviceType } from '../hooks/useDeviceType';
-import { realtimeDatabase } from '../realtimeDatabase';
+import { analytics } from '../analytics';
 import { useMe } from '../hooks/useMe';
+import { config } from '../config';
+import { useLocalStorage } from '../hooks/localstorage';
 
 export function Home() {
 
   const { createGame, joinGame } = useGame();
   const { setRole, setMe } = useMe();
+  const deviceType = useDeviceType();
 
   const [currentState, setCurrentState] = React.useState<'join' | 'create' | 'deciding'>('deciding');
-  const [companyName, setCompanyName] = React.useState('');
-  const [name, setName] = React.useState('');
+
   const [roomCode, setRoomCode] = React.useState('');
-  const [companyRole, setCompanyRole] = React.useState('Developer');
-  const [profileImage, setProfileImage] = React.useState('https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/2-space-cat-riding-unicorn-laser-tacos-and-rainbow-random-galaxy.jpg');
-  const deviceType = useDeviceType();
+
+  const [companyName, setCompanyName] = useLocalStorage('companyName', '');
+  const [name, setName] = useLocalStorage('name', '');
+  const [companyRole, setCompanyRole] = useLocalStorage('role', config.newUserDefaults.role);
+  const [profileImage, setProfileImage] = useLocalStorage('profileImage', config.newUserDefaults.profileImage);
 
   React.useEffect(() => {
     if (currentState === 'join') {
-      realtimeDatabase.logEvent('game_join_started', {  })
+      analytics.logEvent('game_join_started', {  })
     }
     if (currentState === 'create') {
-      realtimeDatabase.logEvent('game_create_started', {  })
+      analytics.logEvent('game_create_started', {  })
     }
   }, [currentState])
-
-  React.useEffect(() => {
-    const previousUserData = getLocal<Player>('userData');
-    if (previousUserData) {
-      setName(previousUserData.name)
-      setCompanyRole(previousUserData.role)
-      setProfileImage(previousUserData.profileImage)
-    }
-  }, []);
-
-  React.useEffect(() => {
-    const hostData = getLocal<{ companyName: string; }>('hostData');
-    if (hostData) {
-      setCompanyName(hostData.companyName)
-    }
-  }, []);
 
   const canStart = name && roomCode && companyRole && profileImage;
 

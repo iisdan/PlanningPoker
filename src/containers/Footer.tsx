@@ -5,11 +5,11 @@ import { Link } from '../components/Link';
 import { MaxWidth } from '../components/MaxWidth';
 import { Text } from '../components/Text';
 import { useDeviceType } from '../hooks/useDeviceType';
-import { copyToClipboard } from '../utils/system';
+import { useClipboard } from "../hooks/clipboard";
 
 export function Footer(props: { roomCode: string }) {
-  const [copied, setCopied] = React.useState(false);
   const device = useDeviceType();
+  const [roomCodeIsCopied, copyRoomCode] = useClipboard(props.roomCode);
 
   return (
     <Foot>
@@ -25,7 +25,6 @@ export function Footer(props: { roomCode: string }) {
                 width={'200px'} 
               >
                 <Text size="xs" color="secondary">
-                  {/* <Link to="https://buymeacoffee.com/dannnnn" newTab>🍺</Link> */}
                   Please play responsibly            
                 </Text>
               </Box>
@@ -46,7 +45,7 @@ export function Footer(props: { roomCode: string }) {
             </Box>
 
             <Text size="xs" color="secondary" align={device === 'mobile' ? 'center' : undefined}>
-              Website by <Link newTab to="https://danielherbert.ca">Dan Herbert</Link>
+              Website by <Link newTab to="https://danielherbert.ca">Dan Herbert</Link> and <Link newTab to="#">Keaton Neville</Link>
             </Text>
 
           </Box>
@@ -58,12 +57,12 @@ export function Footer(props: { roomCode: string }) {
               direction={'vertical'}
             >
 
-              {!copied && (
+              {!roomCodeIsCopied && (
                 <Text size="xs" color="secondary" align="center" fontWeight={300}>
                   Room Code
                 </Text>
               )}
-              {copied && (
+              {roomCodeIsCopied && (
                 <Text size="xs" fontWeight={600} color="accent" align="center">
                   Copied!
                 </Text>
@@ -74,7 +73,7 @@ export function Footer(props: { roomCode: string }) {
                   <div 
                     onClick={() => { 
                       if (props.roomCode) {
-                        copyToClipboard(props.roomCode); setCopied(true); 
+                        copyRoomCode(); 
                       }
                     }} 
                     style={{ cursor: 'pointer' }}

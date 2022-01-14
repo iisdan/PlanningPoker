@@ -5,7 +5,7 @@ import { ProfileImageLarge } from '../components/ProfileImageLarge';
 import { Text } from '../components/Text';
 import { useGame } from '../hooks/useGame';
 import { useMe } from '../hooks/useMe';
-import { copyToClipboard } from '../utils/system';
+import { useClipboard } from '../hooks/clipboard';
 
 export function PreGameLobby() {
 
@@ -17,7 +17,7 @@ export function PreGameLobby() {
 
   const hasPlayers = Boolean(Object.values(players).length);
 
-  const [copied, setCopied] = React.useState(false);
+  const [roomCodeIsCopied, copyRoomCode] = useClipboard(game?.code!);
 
   return (
     <Box wrap alignItems="center" justifyContent="center" direction="vertical">
@@ -47,12 +47,12 @@ export function PreGameLobby() {
           {role === 'host' && (
             <>
               <Box paddingTop="s">
-                {!copied && (
+                {!roomCodeIsCopied && (
                   <Text size="xs" color="secondary" align="center">
                     Room Code
                   </Text>
                 )}
-                {copied && (
+                {roomCodeIsCopied && (
                   <Text size="xs" fontWeight={600} color="accent" align="center">
                     Copied!
                   </Text>
@@ -60,7 +60,7 @@ export function PreGameLobby() {
               </Box>
               <Text size="xxl" fontWeight={600} color="accent">
                 <div 
-                  onClick={() => { copyToClipboard(game?.code!); setCopied(true); }} 
+                  onClick={copyRoomCode} 
                   style={{ cursor: 'pointer' }}
                 >
                     {game?.code}
@@ -85,7 +85,7 @@ export function PreGameLobby() {
         <Box paddingTop="m" direction="vertical">
 
           {phase === 'pre-game' && (
-            <Button onClick={() => startGame()} disabled={!hasPlayers}>Start Round</Button>
+            <Button onClick={startGame} disabled={!hasPlayers}>Start Round</Button>
           )}
 
         </Box>

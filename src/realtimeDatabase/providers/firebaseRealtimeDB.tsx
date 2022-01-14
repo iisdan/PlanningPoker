@@ -1,23 +1,13 @@
 import firebase from 'firebase/compat/app'
 import { getDatabase, ref, set, onValue, remove } from "firebase/database";
 import { DataProvider } from '..';
-import { getAnalytics, logEvent, Analytics } from "firebase/analytics";
 
 export class FirebaseRealtimeDBProvider implements DataProvider {
 
   private app: firebase.app.App;
-  private analytics: Analytics;
 
   constructor(config: object) {
     this.app = firebase.initializeApp(config);
-    this.analytics = getAnalytics(this.app);
-  }
-
-  public logEvent(eventName: string, params?: any) {
-    const isLocal = window.location.href.indexOf('local') !== -1;
-    if (!isLocal) {
-      logEvent(this.analytics, eventName, params);
-    }
   }
 
   public watch(collection: string, id: string, callback: (data: any) => void) {

@@ -1,9 +1,9 @@
 import moment from "moment";
-import { saveLocal } from "../utils/localstorage";
 import { realtimeDatabase } from "../realtimeDatabase";
 import { generateUUID } from "../utils/data";
 import { Game, Player } from '../interfaces';
 import { useGameStore } from '../stores/gameStore';
+import { analytics } from '../analytics';
 
 function watchGame(code: string, callback: (game: Game) => void) {
   realtimeDatabase.watch('games', code, (game: Game) => {
@@ -32,8 +32,8 @@ export function useGame() {
 
     updateGame(updatedGame);
 
-    realtimeDatabase.logEvent('game_started', { gameCode: gameStore.game?.code })
-    realtimeDatabase.logEvent('round_started', { gameCode: gameStore.game?.code })
+    analytics.logEvent('game_started', { gameCode: gameStore.game?.code })
+    analytics.logEvent('round_started', { gameCode: gameStore.game?.code })
   }
 
   function flipCards() {
@@ -53,7 +53,7 @@ export function useGame() {
     });
 
     updateGame(game);
-    realtimeDatabase.logEvent('round_started', { gameCode: gameStore.game?.code })
+    analytics.logEvent('round_started', { gameCode: gameStore.game?.code })
   }
 
   function createGame(companyName: string) {
@@ -66,8 +66,7 @@ export function useGame() {
     const currentDate = moment().toISOString();
     const code = generateUUID({ uppercase: true, length: 5 });
 
-    realtimeDatabase.logEvent('game_created', { code, companyName })
-    saveLocal('hostData', { companyName })
+    analytics.logEvent('game_created', { code, companyName })
 
     updateGame({
       code,
@@ -116,7 +115,7 @@ export function useGame() {
       }
 
       gameStore.setGame(game);
-      realtimeDatabase.logEvent('game_joined', { gameCode: code, name: myInformation.name, role: myInformation.role })
+      analytics.logEvent('game_joined', { gameCode: code, name: myInformation.name, role: myInformation.role })
       hasJoinedGame = true;
 
     });
