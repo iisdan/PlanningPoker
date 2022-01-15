@@ -6,7 +6,7 @@ export function generateUUID(options?: { uppercase?: boolean; length?: number; }
     code = code.toUpperCase();
   }
   if (options?.length) {
-    code = code.substr(0,options?.length)
+    code = code.substring(0,options?.length)
   }
   return code;
 }
