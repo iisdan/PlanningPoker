@@ -11,6 +11,7 @@ interface Props {
   flipped?: boolean;
   noBorder?: boolean;
   shadow?: boolean;
+  size?: 'xl' | 'l' | 's';
 }
 
 export const cards: ICard[] = [
@@ -85,6 +86,7 @@ export const Card = (props: Props) => {
               src={cardPath} 
               alt='card'
               shadow={props.shadow}
+              size={props.size || 'l'}
             />
           }
           back={
@@ -93,6 +95,7 @@ export const Card = (props: Props) => {
               src={require(`./cards/back.svg`).default} 
               alt='card'
               shadow={props.shadow}
+              size={props.size || 'l'}
             />
           }
         />

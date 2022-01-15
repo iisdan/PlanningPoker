@@ -11,6 +11,7 @@ export interface Game {
   date: string;
   players: { [id: string]: Player },
   phase: 'pre-game' | 'selecting' | 'reviewing',
+  disabledCards?: { [cardId: string]: boolean; };
 }
 
 export interface Card {
