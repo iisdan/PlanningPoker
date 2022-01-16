@@ -56,7 +56,7 @@ export function useGame() {
     analytics.logEvent('round_started', { gameCode: gameStore.game?.code })
   }
 
-  function createGame(companyName: string) {
+  function createGame(companyName: string, options: { disabledCards: { [cardId: string]: boolean; } }) {
 
     if (!companyName) {
       alert('No comapny name set')
@@ -73,6 +73,7 @@ export function useGame() {
       date: currentDate,
       players: {},
       phase: 'pre-game',
+      disabledCards: options.disabledCards,
     })
     
 

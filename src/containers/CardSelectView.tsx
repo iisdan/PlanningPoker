@@ -16,6 +16,8 @@ export function CardSelectView() {
   const { me } = useMe();
 
   const myId = me?.id!;  
+  const disabledCards = game?.disabledCards || {};
+  console.log('disabledCards',disabledCards)
 
   const [currentCard, setCurrentCard] = React.useState<ICard | null>(null); 
   const deviceType = useDeviceType();
@@ -41,7 +43,7 @@ export function CardSelectView() {
 
           <Box height={deviceType === 'mobile' ? 'calc(100vh - 200px)' : undefined} direction="horizontal" justifyContent="center" alignItems="center" wrap>
 
-              {cards.map(card => (
+              {cards.map(card => !disabledCards[card.card] && (
                 <Box padding="xs" direction="vertical" alignItems="center">
                   <div 
                     onMouseOver={() => setCurrentCard(card)} 
