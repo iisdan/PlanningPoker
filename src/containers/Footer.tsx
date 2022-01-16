@@ -45,7 +45,7 @@ export function Footer(props: { roomCode: string }) {
             </Box>
 
             <Text size="xs" color="secondary" align={device === 'mobile' ? 'center' : undefined}>
-              Website by <Link newTab to="https://danielherbert.ca">Dan Herbert</Link> and <Link newTab to="#">Keaton Neville</Link>
+              Website by <Link newTab to="https://danielherbert.ca">Dan Herbert</Link> and <Link newTab to="https://linkedin.com/in/keatonneville">Keaton Neville</Link>
             </Text>
 
           </Box>
