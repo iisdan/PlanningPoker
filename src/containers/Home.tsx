@@ -12,16 +12,18 @@ import { analytics } from '../analytics';
 import { useMe } from '../hooks/useMe';
 import { config } from '../config';
 import { useLocalStorage } from '../hooks/localstorage';
+import { useParams } from 'react-router-dom';
 
 export function Home() {
 
   const { createGame, joinGame } = useGame();
   const { setRole, setMe } = useMe();
   const deviceType = useDeviceType();
+  const { roomId } = useParams();
+  const tempstate = roomId ? 'join' : 'deciding';
+  const [currentState, setCurrentState] = React.useState<'join' | 'create' | 'deciding'>(tempstate);
 
-  const [currentState, setCurrentState] = React.useState<'join' | 'create' | 'deciding'>('deciding');
-
-  const [roomCode, setRoomCode] = React.useState('');
+  const [roomCode, setRoomCode] = React.useState(roomId ? roomId : '');
 
   const [companyName, setCompanyName] = useLocalStorage('companyName', '');
   const [name, setName] = useLocalStorage('name', '');
