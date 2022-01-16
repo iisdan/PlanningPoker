@@ -15,7 +15,7 @@ export const ProfileImage = (props: Props) => {
       src={props.image} 
     />
     <Box paddingLeft="s" direction="vertical"  justifyContent="center">
-      <Text size="s">{props.name}</Text>
+      <Text size="s" bold>{props.name}</Text>
       <Text size="xs" color="secondary">{props.role}</Text>
     </Box>
   </Box>
