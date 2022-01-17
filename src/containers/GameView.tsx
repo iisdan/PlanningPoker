@@ -29,6 +29,7 @@ export function GameView() {
           <Box padding="s" direction="vertical" alignItems="center" justifyContent="center">
 
             <Card 
+              size='xl'
               card={player.selectedCard} 
               flipped={phase === 'reviewing' || myId === player.id} 
               hidden={!Boolean(player.selectedCard)} 

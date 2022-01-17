@@ -7,8 +7,17 @@ export const Container = styled.div`
   perspective: 500px;
 `
 
-export const CardImage = styled.img<{ hide?: boolean; shadow?: boolean; }>`
-  width: 150px;
+function getCardSide(size: 'xl' | 'l' | 's') {
+  const sizes = {
+    xl: 150,
+    l: 120,
+    s: 70,
+  }
+  return sizes[size];
+}
+
+export const CardImage = styled.img<{ hide?: boolean; shadow?: boolean; size: 'xl' | 'l' | 's' }>`
+  width: ${(props) => getCardSide(props.size)}px;
   border-radius: 4%;
   user-select: none;
   position: relative;

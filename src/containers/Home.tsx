@@ -4,6 +4,7 @@ import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { MaxWidth } from '../components/MaxWidth';
 import { Text } from '../components/Text';
+import { TextToggle } from '../components/TextToggle';
 import { useGame } from '../hooks/useGame';
 import { v4 as uuid} from 'uuid';
 import { Card } from '../components/Card';
@@ -13,6 +14,7 @@ import { useMe } from '../hooks/useMe';
 import { config } from '../config';
 import { useLocalStorage } from '../hooks/localstorage';
 import { useParams } from 'react-router-dom';
+import { DisabledCards } from './DisabledCards';
 
 export function Home() {
 
@@ -24,6 +26,23 @@ export function Home() {
   const [currentState, setCurrentState] = React.useState<'join' | 'create' | 'deciding'>(tempstate);
 
   const [roomCode, setRoomCode] = React.useState(roomId ? roomId : '');
+
+  const [disabledCards, setDisabledCards] = React.useState<{ [card: string]: boolean; }>({});
+  const [disabledCardsLocalStorage, setDisabledCardsLocalStorage] = useLocalStorage('disabledCards', '{}');
+
+  // Update local storage with disabled cards
+  React.useEffect(() => {
+    if (JSON.stringify(disabledCards) !== disabledCardsLocalStorage) {
+      setDisabledCardsLocalStorage(JSON.stringify(disabledCards));
+    }
+  }, [disabledCards]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Get disabled cards from local storage on load 
+  React.useEffect(() => {
+    setDisabledCards(JSON.parse(disabledCardsLocalStorage) || {});
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const [showingAdvanced, setShowingAdvanced] = React.useState(false);
 
   const [companyName, setCompanyName] = useLocalStorage('companyName', '');
   const [name, setName] = useLocalStorage('name', '');
@@ -60,11 +79,11 @@ export function Home() {
 
               <Box paddingBottom="l" direction="horizontal" justifyContent="center">
                 <Box padding="s">
-                  <Card card={3} flipped={firstCardFlipped} />
+                  <Card size='xl' card={3} flipped={firstCardFlipped} />
                   <div style={{ zIndex: 99, position:'relative', transform: 'scale(1.2)', }}>
-                    <Card shadow card={5} flipped={secondCardFlipped} noBorder={true} />
+                    <Card size='xl' shadow card={5} flipped={secondCardFlipped} noBorder={true} />
                   </div>
-                  <Card card={13} flipped={thirdCardFlipped} />
+                  <Card size='xl' card={13} flipped={thirdCardFlipped} />
                 </Box>
               </Box>
               
@@ -99,6 +118,14 @@ export function Home() {
                 <Input autofocus label="Company name" value={companyName} setValue={(companyName) => setCompanyName(companyName)} />
               </Box>
 
+              {showingAdvanced && (
+                <DisabledCards disabledCards={disabledCards} setDisabledCards={setDisabledCards} />
+              )}
+
+              <Box justifyContent='center'>
+                <TextToggle on={showingAdvanced} onChange={setShowingAdvanced} offText="Show Advanced" onText="Hide Advanced" />
+              </Box>
+
               <Box direction="horizontal" paddingTop={deviceType === 'mobile' ? 'xs' : 'm'} alignItems="center" justifyContent="center">
                 
                 <Box paddingRight="s">
@@ -108,7 +135,7 @@ export function Home() {
                 <Button 
                   disabled={!companyName}
                   onClick={() => {
-                    createGame(companyName);
+                    createGame(companyName, { disabledCards });
                     setRole('host');
                   }}
                 >
