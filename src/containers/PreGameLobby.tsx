@@ -16,8 +16,8 @@ export function PreGameLobby() {
   const phase = game?.phase;
 
   const hasPlayers = Boolean(Object.values(players).length);
-
-  const [roomCodeIsCopied, copyRoomCode] = useClipboard(game?.code!);
+  const url = window.location.href;
+  const [roomCodeIsCopied, copyRoomCode] = useClipboard(`${url}${'join/'}${game?.code!}`);
 
   return (
     <Box wrap alignItems="center" justifyContent="center" direction="vertical">
