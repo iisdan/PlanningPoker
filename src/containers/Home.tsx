@@ -13,6 +13,7 @@ import { analytics } from '../analytics';
 import { useMe } from '../hooks/useMe';
 import { config } from '../config';
 import { useLocalStorage } from '../hooks/localstorage';
+import { useParams } from 'react-router-dom';
 import { DisabledCards } from './DisabledCards';
 
 export function Home() {
@@ -20,8 +21,11 @@ export function Home() {
   const { createGame, joinGame } = useGame();
   const { setRole, setMe } = useMe();
   const deviceType = useDeviceType();
+  const { roomId } = useParams();
+  const tempstate = roomId ? 'join' : 'deciding';
+  const [currentState, setCurrentState] = React.useState<'join' | 'create' | 'deciding'>(tempstate);
 
-  const [currentState, setCurrentState] = React.useState<'join' | 'create' | 'deciding'>('deciding');
+  const [roomCode, setRoomCode] = React.useState(roomId ? roomId : '');
 
   const [disabledCards, setDisabledCards] = React.useState<{ [card: string]: boolean; }>({});
   const [disabledCardsLocalStorage, setDisabledCardsLocalStorage] = useLocalStorage('disabledCards', '{}');
@@ -38,7 +42,6 @@ export function Home() {
     setDisabledCards(JSON.parse(disabledCardsLocalStorage) || {});
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [roomCode, setRoomCode] = React.useState('');
   const [showingAdvanced, setShowingAdvanced] = React.useState(false);
 
   const [companyName, setCompanyName] = useLocalStorage('companyName', '');

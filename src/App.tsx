@@ -1,3 +1,4 @@
+import { Routes, Route } from "react-router-dom";
 import { Box } from './components/Box';
 import { Footer } from './containers/Footer';
 import { Nav } from './containers/Nav';
@@ -24,10 +25,14 @@ function App() {
       <Nav />
 
       <Box wrap height="100%" direction="vertical" justifyContent={shouldVerticallyCenter ? 'center' : undefined} alignItems="center" overflowY="auto">
-        
-        {!game && (
-          <Home />
-        )}
+        <Routes>
+          { !game && 
+          <Route path="/" element={<Home />} />
+          }
+          { !game && 
+            <Route path="/join/:roomId" element={<Home />} />
+          }
+        </Routes>
 
         {game?.phase === 'pre-game' && (
           <PreGameLobby />
