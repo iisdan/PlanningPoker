@@ -11,7 +11,7 @@ export function GameView() {
   const { game, flipCards, reset, selectCard } = useGame();
   const { me, role } = useMe();
 
-  const players = game?.players || {};
+  const players = React.useMemo(() => game?.players || {}, [game?.players]); 
   const phase = game?.phase;
   const myId = me?.id!;
 
@@ -19,6 +19,17 @@ export function GameView() {
     const playersWithCardsSelected = Object.values(game?.players || {}).filter(player => Boolean(player.selectedCard));
     return playersWithCardsSelected.length;
   }, [game]);
+
+  const cardSize = React.useMemo(() => {
+    const playerCount = Object.values(players).length;
+    if (playerCount > 8) {
+      return 'l';
+    }
+    if (playerCount > 16) {
+      return 'm';
+    }
+    return 'xl';
+  }, [players]);
 
   return (
     <Box direction="vertical" wrap>
@@ -29,7 +40,7 @@ export function GameView() {
           <Box padding="s" direction="vertical" alignItems="center" justifyContent="center">
 
             <Card 
-              size='xl'
+              size={cardSize}
               card={player.selectedCard} 
               flipped={phase === 'reviewing' || myId === player.id} 
               hidden={!Boolean(player.selectedCard)} 

@@ -11,7 +11,7 @@ interface Props {
   flipped?: boolean;
   noBorder?: boolean;
   shadow?: boolean;
-  size?: 'xl' | 'l' | 's';
+  size?: 'xl' | 'l' | 'm' | 's';
 }
 
 export const cards: ICard[] = [
