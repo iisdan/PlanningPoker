@@ -6,11 +6,12 @@ interface Props {
   children: React.ReactNode;
   onClick?: () => void;
   disabled?: boolean;
+  to?: string;
 }
 
 export const Button = (props: Props) => {
   return (
-    <ButtonElement onClick={() => { if (!props.disabled && props.onClick) { props.onClick(); }}} disabled={props.disabled}>
+    <ButtonElement href={props.to} onClick={() => { if (!props.disabled && props.onClick) { props.onClick(); }}} disabled={props.disabled}>
       <Text size="s" color="primary" fontWeight={600}>
         {props.children}
       </Text>

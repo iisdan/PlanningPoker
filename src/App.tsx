@@ -5,19 +5,32 @@ import { Nav } from './containers/Nav';
 import { Viewport } from './components/Viewport';
 import { GameView } from './containers/GameView';
 import { useGame } from './hooks/useGame';
-import { CardSelectView } from './containers/CardSelectView';
 import { Home } from './containers/Home';
-import { PreGameLobby } from './containers/PreGameLobby';
 import { useDeviceType } from './hooks/useDeviceType';
-import { useMe } from './hooks/useMe';
+import { JoinGame } from "./containers/joinGame";
+import { CreateGame } from "./containers/CreateGame";
+import React from "react";
+import { getLocal } from "./utils/localstorage";
+import { Player } from "./interfaces";
+import { generateUUID } from "./utils/data";
+import { useMe } from "./hooks/useMe";
 
 function App() {
 
   const { game } = useGame();
-  const { role } = useMe();
+  const { setMe } = useMe();
   const device = useDeviceType();
 
   const shouldVerticallyCenter = device !== 'mobile' || !Boolean(game?.phase);
+
+  React.useEffect(() => {
+    let me = getLocal<Player>('me');
+    if (me) {
+      // re-generate UUID for joining multiple times on one device
+      me.id = generateUUID();
+      setMe(me);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   
   return (
     <Viewport>
@@ -25,26 +38,15 @@ function App() {
       <Nav />
 
       <Box wrap height="100%" direction="vertical" justifyContent={shouldVerticallyCenter ? 'center' : undefined} alignItems="center" overflowY="auto">
+        
         <Routes>
-          { !game && 
           <Route path="/" element={<Home />} />
-          }
-          { !game && 
-            <Route path="/join/:roomId" element={<Home />} />
-          }
+          <Route path="/host/:roomId" element={<GameView role="host" />} />
+          <Route path="/play/:roomId" element={<GameView role="player" />} />
+          <Route path="/join/:roomId" element={<JoinGame />} />
+          <Route path="/join" element={<JoinGame />} />
+          <Route path="/new" element={<CreateGame />} />
         </Routes>
-
-        {game?.phase === 'pre-game' && (
-          <PreGameLobby />
-        )}
-
-        {role === 'player' && game?.phase !== 'pre-game' && (
-          <CardSelectView />
-        )}
-
-        {role && game?.phase !== 'pre-game' && (
-          <GameView />
-        )}
 
       </Box>
       
