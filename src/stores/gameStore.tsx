@@ -5,11 +5,14 @@ const Context = React.createContext<ReturnType<typeof Store> | null>(null);
 
 function Store() {
   const [game, setGame] = useState<Game | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   return React.useMemo(() => ({ 
     game, setGame,
+    loading, setLoading,
   }), [
     game, setGame,
+    loading, setLoading,
   ]);
 }
 

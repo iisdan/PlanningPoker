@@ -19,7 +19,6 @@ function pushGame(code: string, game: Game) {
 }
 
 export function useGame(roomCode?: string, myInformation?: Player, role?: 'player' | 'host') {
-  let loading = true;
   const gameStore = useGameStore();
 
   useEffect(() => {
@@ -85,7 +84,7 @@ export function useGame(roomCode?: string, myInformation?: Player, role?: 'playe
   } 
 
   function joinGame(code: string, myInformation: Player) {
-    loading = true;
+    gameStore.setLoading(true);
     if (!code) {
       alert('No game code set')
       return;
@@ -96,6 +95,7 @@ export function useGame(roomCode?: string, myInformation?: Player, role?: 'playe
     watchGame(code, (game: Game) => {
 
       if (!game) {
+        gameStore.setLoading(false);
         return;
       }
 
@@ -107,7 +107,7 @@ export function useGame(roomCode?: string, myInformation?: Player, role?: 'playe
       gameStore.setGame(game);
       analytics.logEvent('game_joined', { gameCode: code, name: myInformation.name, role: myInformation.role })
       hasJoinedGame = true;
-      loading = false;
+      gameStore.setLoading(false);
 
     });
 
@@ -129,6 +129,7 @@ export function useGame(roomCode?: string, myInformation?: Player, role?: 'playe
 
   return {
     game: gameStore.game,
+    loading: gameStore.loading,
     selectCard,
     updateGame,
     startGame,
@@ -136,6 +137,5 @@ export function useGame(roomCode?: string, myInformation?: Player, role?: 'playe
     reset,
     createGame,
     joinGame,
-    loading,
   }
 }
