@@ -26,7 +26,7 @@ export const CardImage = styled.img<{ hide?: boolean; shadow?: boolean; size: 'x
   opacity: ${(props) => props.hide ? '0' : '1'};
   transform: translate(${(props) => props.hide ? '-40px, 300px' : '0px, 0px'}) rotate(${(props) => props.hide ? '-100deg' : '0deg'}) rotate3d(${(props) => props.hide ? '1, 1, 0, -70deg' : '0, 0, 0, 0deg'});
   transition: all ${duration};
-  box-shadow: ${(props) => props.shadow ? '0px 0px 100px black' : 'none'};
+  filter: ${(props) => props.shadow ? 'drop-shadow(0px 0px 50px black)' : 'none'};
   margin-bottom: -5px; /*Card has extra spacing at the bottom*/
   @media (max-width: ${theme.deviceMaxWidths.mobile}px) {
     width: 100px;

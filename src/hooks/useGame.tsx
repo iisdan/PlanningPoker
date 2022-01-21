@@ -1,9 +1,9 @@
 import moment from "moment";
 import { realtimeDatabase } from "../realtimeDatabase";
-import { generateUUID } from "../utils/data";
 import { Game, Player } from '../interfaces';
 import { useGameStore } from '../stores/gameStore';
 import { analytics } from '../analytics';
+import { useEffect } from "react";
 
 function watchGame(code: string, callback: (game: Game) => void) {
   realtimeDatabase.watch('games', code, (game: Game) => {
@@ -18,8 +18,15 @@ function pushGame(code: string, game: Game) {
   realtimeDatabase.set('games', code, game);
 }
 
-export function useGame() {
+export function useGame(roomCode?: string, myInformation?: Player, role?: 'player' | 'host') {
+  let loading = true;
   const gameStore = useGameStore();
+
+  useEffect(() => {
+    if (roomCode && myInformation) {
+      joinGame(roomCode, myInformation);
+    }
+  }, [roomCode, myInformation]); // eslint-disable-line react-hooks/exhaustive-deps
   
   function updateGame(game: Game) {
     gameStore.setGame(game);
@@ -56,7 +63,7 @@ export function useGame() {
     analytics.logEvent('round_started', { gameCode: gameStore.game?.code })
   }
 
-  function createGame(companyName: string, options: { disabledCards: { [cardId: string]: boolean; } }) {
+  function createGame(code: string, companyName: string, options: { disabledCards: { [cardId: string]: boolean; } }) {
 
     if (!companyName) {
       alert('No comapny name set')
@@ -64,7 +71,6 @@ export function useGame() {
     }
 
     const currentDate = moment().toISOString();
-    const code = generateUUID({ uppercase: true, length: 5 });
 
     analytics.logEvent('game_created', { code, companyName })
 
@@ -76,20 +82,10 @@ export function useGame() {
       disabledCards: options.disabledCards,
     })
     
-
-    watchGame(code, (game: Game) => {
-      if (game) {
-        gameStore.setGame(game);
-      }
-    })
-
-    window.onbeforeunload = (e) => {
-      realtimeDatabase.delete('games', code);
-    }
   } 
 
   function joinGame(code: string, myInformation: Player) {
-
+    loading = true;
     if (!code) {
       alert('No game code set')
       return;
@@ -99,18 +95,11 @@ export function useGame() {
     let hasJoinedGame = false;
     watchGame(code, (game: Game) => {
 
-      if (!game && hasJoinedGame) {
-        alert('The host has left the game');
-        window.location.reload();
+      if (!game) {
         return;
       }
 
-      if (!game && !hasJoinedGame) {
-        alert("Can't find game");
-        return;
-      }
-
-      if (!hasJoinedGame) {
+      if (!hasJoinedGame && role === 'player') {
         game.players[myInformation.id] = myInformation;
         updateGame(game);
       }
@@ -118,6 +107,7 @@ export function useGame() {
       gameStore.setGame(game);
       analytics.logEvent('game_joined', { gameCode: code, name: myInformation.name, role: myInformation.role })
       hasJoinedGame = true;
+      loading = false;
 
     });
 
@@ -146,5 +136,6 @@ export function useGame() {
     reset,
     createGame,
     joinGame,
+    loading,
   }
 }

@@ -9,7 +9,8 @@ import { useClipboard } from "../hooks/clipboard";
 
 export function Footer(props: { roomCode: string }) {
   const device = useDeviceType();
-  const [roomCodeIsCopied, copyRoomCode] = useClipboard(props.roomCode);
+  const url = window.location.protocol + "//" + window.location.host + `/join/${props.roomCode}`;
+  const [roomCodeIsCopied, copyRoomCode] = useClipboard(url);
 
   return (
     <Foot>

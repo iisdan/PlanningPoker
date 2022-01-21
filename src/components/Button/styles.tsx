@@ -11,6 +11,7 @@ export const ButtonElement = styled.a<{ disabled?: boolean; }>`
   min-width: 70px;
   text-align: center;
   transition: 0.25s;
+  text-decoration: none;
   &:hover {
     ${props => !props.disabled ? 'background-color: rgba(255,255,255,0.2);' : ''}
   }
