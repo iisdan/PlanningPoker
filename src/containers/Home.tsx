@@ -4,6 +4,7 @@ import { Button } from '../components/Button';
 import { MaxWidth } from '../components/MaxWidth';
 import { Text } from '../components/Text';
 import { Card } from '../components/Card';
+import React3DRotationBox from '../components/3DBox';
 
 export function Home() {
 
@@ -24,11 +25,18 @@ export function Home() {
 
             <Box paddingBottom="l" direction="horizontal" justifyContent="center">
               <Box padding="s">
-                <Card size='xl' card={3} flipped={firstCardFlipped} />
-                <div style={{ zIndex: 99, position:'relative', transform: 'scale(1.2)', }}>
-                  <Card size='xl' shadow card={5} flipped={secondCardFlipped} noBorder={true} />
-                </div>
-                <Card size='xl' card={13} flipped={thirdCardFlipped} />
+                <React3DRotationBox className="card1">
+                  <Card size='xl' card={3} flipped={firstCardFlipped} />
+                </React3DRotationBox>
+                  <div style={{ zIndex: 99, position:'relative', transform: 'scale(1.2)', }}>
+                    <React3DRotationBox className="card2">
+                      <Card size='xl' shadow card={5} flipped={secondCardFlipped} noBorder={true} />
+                    </React3DRotationBox>
+
+                  </div>
+                <React3DRotationBox className="card3">
+                  <Card size='xl' card={13} flipped={thirdCardFlipped} />
+                </React3DRotationBox>
               </Box>
             </Box>
             
