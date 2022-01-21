@@ -4,20 +4,17 @@ import { Button } from '../components/Button';
 import { ProfileImageLarge } from '../components/ProfileImageLarge';
 import { Text } from '../components/Text';
 import { useGame } from '../hooks/useGame';
-import { useMe } from '../hooks/useMe';
 import { useClipboard } from '../hooks/clipboard';
 
-export function PreGameLobby() {
+export function PreGameLobby(props: { role: 'player' | 'host', showStartButton: boolean }) {
 
   const { game, startGame } = useGame();
-  const { role } = useMe();
 
   const players = game?.players || {};
-  const phase = game?.phase;
 
   const hasPlayers = Boolean(Object.values(players).length);
-  const url = window.location.href;
-  const [roomCodeIsCopied, copyRoomCode] = useClipboard(`${url}${'join/'}${game?.code!}`);
+  const url = window.location.protocol + "//" + window.location.host + `/join/${game?.code}`;
+  const [roomCodeIsCopied, copyRoomCode] = useClipboard(url);
 
   return (
     <Box wrap alignItems="center" justifyContent="center" direction="vertical">
@@ -26,7 +23,7 @@ export function PreGameLobby() {
         <Box direction="vertical" alignItems="center" justifyContent="center" wrap>
           {!hasPlayers && (
             <Box direction="vertical" alignItems="center" justifyContent="center">
-              <Text fontWeight={600} size="xxl">No players yet</Text>
+              <Text fontWeight={600} size="xxl">No Players</Text>
             </Box>
           )}
 
@@ -44,12 +41,12 @@ export function PreGameLobby() {
             </Box>
           )}
 
-          {role === 'host' && (
+          {props.role === 'host' && (
             <>
               <Box paddingTop="s">
                 {!roomCodeIsCopied && (
                   <Text size="xs" color="secondary" align="center">
-                    Room Code
+                    Room Code (Cick to copy)
                   </Text>
                 )}
                 {roomCodeIsCopied && (
@@ -69,7 +66,7 @@ export function PreGameLobby() {
             </>
           )}
 
-          {role === 'player' && (
+          {props.role === 'player' && (
             <Box paddingTop="m">
               <Text size="m" color="secondary" align="center">
                 Waiting for the host
@@ -81,12 +78,10 @@ export function PreGameLobby() {
 
       </Box>
 
-      {role === 'host' && (
+      {props.role === 'host' && props.showStartButton && (
         <Box paddingTop="m" direction="vertical">
 
-          {phase === 'pre-game' && (
             <Button onClick={startGame} disabled={!hasPlayers}>Start Round</Button>
-          )}
 
         </Box>
       )}
