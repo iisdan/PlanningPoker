@@ -20,7 +20,7 @@ export function GameView(props: { role: 'player' | 'host' }) {
   const { me } = useMe();
   const { game, flipCards, reset, selectCard, loading } = useGame(roomId, me, props.role);
 
-  const players = game?.players || {};
+  const players = React.useMemo(() => game?.players || {}, [game?.players]); 
   const phase = game?.phase;
   const myId = me?.id!;
   const hasPlayers = Boolean(Object.keys(players).length);
@@ -30,6 +30,17 @@ export function GameView(props: { role: 'player' | 'host' }) {
     return playersWithCardsSelected.length;
   }, [game]);
 
+  const cardSize = React.useMemo(() => {
+    const playerCount = Object.values(players).length;
+    if (playerCount > 8) {
+      return 'l';
+    }
+    if (playerCount > 16) {
+      return 'm';
+    }
+    return 'xl';
+  }, [players]);
+  
   if (!game && loading) {
     return <Loading />;
   }
@@ -62,7 +73,7 @@ export function GameView(props: { role: 'player' | 'host' }) {
           <Box padding="s" direction="vertical" alignItems="center" justifyContent="center">
 
             <Card 
-              size='xl'
+              size={cardSize}
               card={player.selectedCard} 
               flipped={phase === 'reviewing' || (myId === player.id && props.role === 'player')} 
               hidden={!Boolean(player.selectedCard)} 
