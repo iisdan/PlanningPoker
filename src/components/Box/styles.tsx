@@ -15,6 +15,7 @@ interface Props {
   wrap?: boolean;
   width?: string;
   overflowY?: 'none' | 'auto' | 'scroll';
+  opacity?: number;
 }
 
 function getSpacingSize(size: sizingCode) {
@@ -40,5 +41,6 @@ export const Container = styled.div<Props>`
   ${(props) => props.paddingBottom ? `padding-bottom:${getSpacingSize(props.paddingBottom)}px;` : ''};
 
   flex-wrap: ${(props) => props.wrap ? 'wrap' : 'no-wrap'};
+  opacity: ${(props) => props.opacity || 1};
   ${(props) => props.overflowY ? `overflow-y: ${props.overflowY}` : ''}
 `;

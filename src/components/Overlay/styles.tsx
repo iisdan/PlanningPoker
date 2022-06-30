@@ -15,7 +15,7 @@ export const Container = styled.div<{ open: boolean; }>`
   box-sizing: border-box;
   z-index: 50;
   transition: all ${duration};
-  background-color: ${(props) => props.open ? 'rgba(0,0,0,0.7)' : 'rgba(0,0,0,0.0)'};
+  background-color: ${(props) => props.open ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.0)'};
   pointer-events: ${(props) => props.open ? 'all' : 'none'};
 `;
 

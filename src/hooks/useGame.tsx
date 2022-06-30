@@ -14,22 +14,26 @@ function watchGame(code: string, callback: (game: Game) => void) {
   })
 }
 
-function pushGame(code: string, game: Game) {
-  realtimeDatabase.set('games', code, game);
+async function pushGame(code: string, game: Game) {
+  await realtimeDatabase.set('games', code, game);
 }
 
 export function useGame(roomCode?: string, myInformation?: Player, role?: 'player' | 'host') {
   const gameStore = useGameStore();
+  console.log('roomCode',roomCode)
 
   useEffect(() => {
-    if (roomCode && myInformation) {
+    console.log('effect',roomCode)
+
+    if (roomCode && (myInformation || role === 'host')) {
+      console.log('joining game')
       joinGame(roomCode, myInformation);
     }
   }, [roomCode, myInformation]); // eslint-disable-line react-hooks/exhaustive-deps
   
-  function updateGame(game: Game) {
+  async function updateGame(game: Game) {
     gameStore.setGame(game);
-    pushGame(game.code, game);
+    await pushGame(game.code, game);
   }
 
   function startGame() {
@@ -62,7 +66,7 @@ export function useGame(roomCode?: string, myInformation?: Player, role?: 'playe
     analytics.logEvent('round_started', { gameCode: gameStore.game?.code })
   }
 
-  function createGame(code: string, companyName: string, options: { disabledCards: { [cardId: string]: boolean; } }) {
+  async function createGame(code: string, companyName: string, options: { disabledCards: { [cardId: string]: boolean; } }) {
 
     if (!companyName) {
       alert('No comapny name set')
@@ -73,7 +77,7 @@ export function useGame(roomCode?: string, myInformation?: Player, role?: 'playe
 
     analytics.logEvent('game_created', { code, companyName })
 
-    updateGame({
+    await updateGame({
       code,
       date: currentDate,
       players: {},
@@ -83,7 +87,7 @@ export function useGame(roomCode?: string, myInformation?: Player, role?: 'playe
     
   } 
 
-  function joinGame(code: string, myInformation: Player) {
+  function joinGame(code: string, myInformation?: Player) {
     gameStore.setLoading(true);
     if (!code) {
       alert('No game code set')
@@ -99,13 +103,15 @@ export function useGame(roomCode?: string, myInformation?: Player, role?: 'playe
         return;
       }
 
-      if (!hasJoinedGame && role === 'player') {
+      if (!hasJoinedGame && role === 'player' && myInformation) {
         game.players[myInformation.id] = myInformation;
         updateGame(game);
       }
 
       gameStore.setGame(game);
-      analytics.logEvent('game_joined', { gameCode: code, name: myInformation.name, role: myInformation.role })
+      if (myInformation) {
+        analytics.logEvent('game_joined', { gameCode: code, name: myInformation.name, role: myInformation.role })
+      }
       hasJoinedGame = true;
       gameStore.setLoading(false);
 
@@ -115,7 +121,9 @@ export function useGame(roomCode?: string, myInformation?: Player, role?: 'playe
     window.onbeforeunload = (e) => {
       // onbeforeunload scope is very limited, we have to re-get the game
       watchGame(code, (game: Game) => {
-        delete game.players[myInformation.id];
+        if (myInformation) {
+          delete game.players[myInformation.id];
+        }
         pushGame(game.code, game)
       });
     }

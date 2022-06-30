@@ -7,17 +7,18 @@ export const Container = styled.div`
   perspective: 500px;
 `
 
-function getCardSide(size: 'xl' | 'l' | 'm' | 's') {
+function getCardSide(size: 'xl' | 'l' | 'm' | 's' | 'xs') {
   const sizes = {
     xl: 150,
     l: 120,
     m: 100,
     s: 70,
+    xs: 50,
   }
   return sizes[size];
 }
 
-export const CardImage = styled.img<{ hide?: boolean; shadow?: boolean; size: 'xl' | 'l' | 'm' | 's' }>`
+export const CardImage = styled.img<{ hide?: boolean; shadow?: boolean; size: 'xl' | 'l' | 'm' | 's' | 'xs' }>`
   width: ${(props) => getCardSide(props.size)}px;
   border-radius: 4%;
   user-select: none;

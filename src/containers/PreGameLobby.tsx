@@ -5,10 +5,12 @@ import { ProfileImageLarge } from '../components/ProfileImageLarge';
 import { Text } from '../components/Text';
 import { useGame } from '../hooks/useGame';
 import { useClipboard } from '../hooks/clipboard';
+import { useParams } from 'react-router-dom';
 
 export function PreGameLobby(props: { role: 'player' | 'host', showStartButton: boolean }) {
 
-  const { game, startGame } = useGame();
+  const { roomId } = useParams();
+  const { game, startGame } = useGame(roomId);
 
   const players = game?.players || {};
 

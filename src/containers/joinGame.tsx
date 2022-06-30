@@ -54,9 +54,9 @@ export function JoinGame() {
 
           <Box direction="horizontal" paddingTop={deviceType === 'mobile' ? 'xs' : 'm'} alignItems="center" justifyContent="center">
             
-            <Box paddingRight="s">
+            {/* <Box paddingRight="s">
               <Button onClick={() => navigate(-1)}>Back</Button>
-            </Box>
+            </Box> */}
 
             <Button 
               disabled={!canStart}

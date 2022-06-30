@@ -9,9 +9,10 @@ import { useGame } from '../hooks/useGame';
 import { useDeviceType } from '../hooks/useDeviceType';
 import { analytics } from '../analytics';
 import { useLocalStorage } from '../hooks/localstorage';
-import { DisabledCards } from './DisabledCards';
 import { useNavigate } from '../hooks/navigate';
 import { generateUUID } from '../utils/data';
+import { TicketCreateButtonAndView } from './TicketCreateButtonAndView';
+import { DisabledCardSelect } from './DisabledCardSelect';
 
 export function CreateGame() {
 
@@ -56,28 +57,45 @@ export function CreateGame() {
             <Text size="xl" fontWeight={600}>Create Game</Text>
           </Box>
 
-          <Box paddingLeft="s" paddingRight="s" paddingTop="m" justifyContent="center" direction="vertical">
-            <Input autofocus label="Company name" value={companyName} setValue={(companyName) => setCompanyName(companyName)} />
+          <Box paddingLeft="s" paddingRight="s" paddingTop="m" justifyContent="center" alignItems='center' direction="horizontal">
+            <Input autofocus label="Company" value={companyName} setValue={(companyName) => setCompanyName(companyName)} />
+
+            <Box paddingLeft='s' paddingBottom='m'>
+              <TicketCreateButtonAndView />
+            </Box>
+
+            <Box  paddingBottom='m'>
+              <DisabledCardSelect disabledCards={disabledCards} setDisabledCards={setDisabledCards} />
+            </Box>
           </Box>
 
-          {showingAdvanced && (
+          {/* {showingAdvanced && (
             <DisabledCards disabledCards={disabledCards} setDisabledCards={setDisabledCards} />
-          )}
+          )} */}
 
-          <Box justifyContent='center'>
+          {/* <Box justifyContent='center'>
             <TextToggle on={showingAdvanced} onChange={setShowingAdvanced} offText="Show Advanced" onText="Hide Advanced" />
-          </Box>
+          </Box> */}
+          {/* <Box justifyContent='center'> */}
+
+            {/* <Box paddingRight='m'>
+              <TicketCreateButtonAndView />
+            </Box> */}
+
+            {/* <DisabledCardSelect disabledCards={disabledCards} setDisabledCards={setDisabledCards} /> */}
+
+          {/* </Box> */}
 
           <Box direction="horizontal" paddingTop={deviceType === 'mobile' ? 'xs' : 'm'} alignItems="center" justifyContent="center">
             
-            <Box paddingRight="s">
+            {/* <Box paddingRight="s">
               <Button onClick={() => navigate(-1)}>Back</Button>
-            </Box>
+            </Box> */}
 
             <Button 
               disabled={!companyName}
-              onClick={() => {
-                createGame(roomCode, companyName, { disabledCards });
+              onClick={async () => {
+                await createGame(roomCode, companyName, { disabledCards });
                 navigate(`/host/${roomCode}`); // must be done via code after create game
               }}
             >

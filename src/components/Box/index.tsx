@@ -17,6 +17,7 @@ interface Props {
   wrap?: boolean;
   width?: string;
   overflowY?: 'none' | 'auto' | 'scroll';
+  opacity?: number;
 }
 
 export const Box = (props: Props) => {
@@ -35,6 +36,7 @@ export const Box = (props: Props) => {
       wrap={props.wrap}
       width={props.width}
       overflowY={props.overflowY}
+      opacity={props.opacity}
     >
       {props.children}
     </Container>

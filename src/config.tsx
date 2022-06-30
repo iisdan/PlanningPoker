@@ -25,7 +25,7 @@ interface Config {
 
 export const config: Config = {
   database: {
-    provider: 'realtimedb',
+    provider: 'firestore',
   },
   analytics: {
     provider: 'firebase',
