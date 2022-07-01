@@ -29,7 +29,7 @@ export function GameView(props: { role: 'player' | 'host' }) {
     const playersWithCardsSelected = Object.values(game?.players || {}).filter(player => Boolean(player.selectedCard));
     return playersWithCardsSelected.length;
   }, [game]);
-console.log('tickets',game?.tickets)
+
   const tickets = game?.tickets || []
   const currentTicket = tickets ? tickets[0] : null
 

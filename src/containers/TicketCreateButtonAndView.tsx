@@ -4,8 +4,6 @@ import { MaxWidth } from '../components/MaxWidth';
 import { Overlay } from '../components/Overlay';
 import { Text } from '../components/Text';
 import { useGame } from '../hooks/useGame';
-import { useDeviceType } from '../hooks/useDeviceType';
-import { useMe } from '../hooks/useMe';
 import { Button } from '../components/Button';
 import styled from 'styled-components';
 import { Input } from '../components/Input';
