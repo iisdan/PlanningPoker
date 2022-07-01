@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Box } from '../components/Box';
-import { Card, cards } from '../components/Card';
-import { HoverEffect } from '../components/HoverEffect';
 import { MaxWidth } from '../components/MaxWidth';
 import { Overlay } from '../components/Overlay';
 import { Text } from '../components/Text';
 import { useGame } from '../hooks/useGame';
-import { Card as ICard } from '../interfaces';
 import { useDeviceType } from '../hooks/useDeviceType';
 import { useMe } from '../hooks/useMe';
-import { TextToggle } from '../components/TextToggle';
 import { Button } from '../components/Button';
 import styled from 'styled-components';
 import { Input } from '../components/Input';
@@ -34,7 +30,7 @@ export function TicketCreateButtonAndView() {
     if (!tickets.length) {
       addTicket()
     }
-  }, [open, tickets])
+  }, [open, tickets]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

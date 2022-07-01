@@ -66,8 +66,6 @@ export function useGame(roomCode?: string, myInformation?: Player, role?: 'playe
     updatedTickets.splice(0, 1)
     game.tickets = updatedTickets
 
-    console.log('reset',game.tickets)
-
     updateGame(game);
     analytics.logEvent('round_started', { gameCode: gameStore.game?.code })
   }
@@ -153,8 +151,6 @@ export function useGame(roomCode?: string, myInformation?: Player, role?: 'playe
       }
     ]
 
-    console.log('updatedGame.tickets',updatedGame.tickets)
-
     updateGame(updatedGame);
   }
 
@@ -165,8 +161,6 @@ export function useGame(roomCode?: string, myInformation?: Player, role?: 'playe
     updatedTickets.splice(index, 1)
     updatedGame.tickets = updatedTickets
 
-    console.log('removeTicket',updatedTickets)
-
     updateGame(updatedGame);
   }
 
@@ -176,8 +170,6 @@ export function useGame(roomCode?: string, myInformation?: Player, role?: 'playe
     let updatedTickets = [...updatedGame.tickets || [] ]
     updatedTickets[index][field] = value
     updatedGame.tickets = updatedTickets
-
-    console.log('updateTicket',updatedTickets)
 
     updateGame(updatedGame);
   }

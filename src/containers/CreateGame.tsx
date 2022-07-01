@@ -4,7 +4,6 @@ import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { MaxWidth } from '../components/MaxWidth';
 import { Text } from '../components/Text';
-import { TextToggle } from '../components/TextToggle';
 import { useGame } from '../hooks/useGame';
 import { useDeviceType } from '../hooks/useDeviceType';
 import { analytics } from '../analytics';
@@ -38,8 +37,6 @@ export function CreateGame() {
   React.useEffect(() => {
     setDisabledCards(JSON.parse(disabledCardsLocalStorage) || {});
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const [showingAdvanced, setShowingAdvanced] = React.useState(false);
 
   const [companyName, setCompanyName] = useLocalStorage('companyName', '');
 

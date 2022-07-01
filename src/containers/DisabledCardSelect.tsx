@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
 import { Box } from '../components/Box';
 import { Card, cards } from '../components/Card';
-import { HoverEffect } from '../components/HoverEffect';
 import { MaxWidth } from '../components/MaxWidth';
 import { Overlay } from '../components/Overlay';
 import { Text } from '../components/Text';
 import { useGame } from '../hooks/useGame';
-import { Card as ICard } from '../interfaces';
 import { useDeviceType } from '../hooks/useDeviceType';
 import { useMe } from '../hooks/useMe';
-import { TextToggle } from '../components/TextToggle';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/Button';
-import styled from 'styled-components';
 
 interface Props {
   disabledCards: { [card: string]: boolean; }; // returns a string for local storage
