@@ -17,10 +17,12 @@ export function CardSelectView() {
 
   const myId = me?.id!;  
   const disabledCards = game?.disabledCards || {};
-  console.log('disabledCards',disabledCards)
 
   const [currentCard, setCurrentCard] = React.useState<ICard | null>(null); 
   const deviceType = useDeviceType();
+
+  const tickets = game?.tickets || []
+  const currentTicket = tickets ? tickets[0] : null
 
   const open = !game?.players[myId]?.selectedCard && game?.phase === 'selecting';
   return (
@@ -30,12 +32,12 @@ export function CardSelectView() {
 
           <Box paddingBottom="m" direction='vertical' alignItems="center">
             <Text size="l" color='primary' fontWeight={600}>
-              {currentCard?.title || 'How Complex?'}
+              {currentTicket?.number || currentCard?.title || 'How Complex?'}
             </Text>
             <Box paddingTop="xs" >
               <MaxWidth small>
                 <Text size="s" color='secondary' fontWeight={300} align="center">
-                  {currentCard?.description || 'Select the card that best fits the task'}
+                  {currentTicket?.description || currentCard?.description || 'Select the card that best fits the task'}
                 </Text>
               </MaxWidth>
             </Box>

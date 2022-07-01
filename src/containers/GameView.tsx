@@ -29,6 +29,9 @@ export function GameView(props: { role: 'player' | 'host' }) {
     const playersWithCardsSelected = Object.values(game?.players || {}).filter(player => Boolean(player.selectedCard));
     return playersWithCardsSelected.length;
   }, [game]);
+console.log('tickets',game?.tickets)
+  const tickets = game?.tickets || []
+  const currentTicket = tickets ? tickets[0] : null
 
   const cardSize = React.useMemo(() => {
     const playerCount = Object.values(players).length;
@@ -65,6 +68,18 @@ export function GameView(props: { role: 'player' | 'host' }) {
 
       {props.role === 'player' && (
         <CardSelectView />
+      )}
+
+      {(currentTicket?.number || currentTicket?.description) && (
+        <Box paddingBottom='l' direction='vertical'>
+          {currentTicket?.number && (
+            <Text size='xl' fontWeight={500} align='center'>{currentTicket?.number}</Text>
+          )}
+
+          {currentTicket?.description && (
+            <Text size='s' color='secondary' align='center'>{currentTicket?.description}</Text>
+          )}
+        </Box>
       )}
 
       <Box direction="horizontal" justifyContent="center" alignItems="center" wrap>

@@ -1,6 +1,6 @@
 import moment from "moment";
 import { realtimeDatabase } from "../realtimeDatabase";
-import { Game, Player } from '../interfaces';
+import { Game, Player, Ticket } from '../interfaces';
 import { useGameStore } from '../stores/gameStore';
 import { analytics } from '../analytics';
 import { useEffect } from "react";
@@ -62,11 +62,17 @@ export function useGame(roomCode?: string, myInformation?: Player, role?: 'playe
       game.players[playerId].selectedCard = null;
     });
 
+    let updatedTickets = [...game.tickets || [] ]
+    updatedTickets.splice(0, 1)
+    game.tickets = updatedTickets
+
+    console.log('reset',game.tickets)
+
     updateGame(game);
     analytics.logEvent('round_started', { gameCode: gameStore.game?.code })
   }
 
-  async function createGame(code: string, companyName: string, options: { disabledCards: { [cardId: string]: boolean; } }) {
+  async function createGame(code: string, companyName: string, options: { tickets: Ticket[], disabledCards?: { [cardId: string]: boolean; } }) {
 
     if (!companyName) {
       alert('No comapny name set')
@@ -82,7 +88,8 @@ export function useGame(roomCode?: string, myInformation?: Player, role?: 'playe
       date: currentDate,
       players: {},
       phase: 'pre-game',
-      disabledCards: options.disabledCards,
+      disabledCards: options.disabledCards || {},
+      tickets: options.tickets || [],
     })
     
   } 
@@ -135,6 +142,46 @@ export function useGame(roomCode?: string, myInformation?: Player, role?: 'playe
     updateGame(updatedGame);
   }
 
+  function addTicket() {
+    let updatedGame = { ...gameStore.game! };
+
+    updatedGame.tickets = [
+      ...updatedGame.tickets || [],
+      {
+        number: '',
+        description: '',
+      }
+    ]
+
+    console.log('updatedGame.tickets',updatedGame.tickets)
+
+    updateGame(updatedGame);
+  }
+
+  function removeTicket(index: number) {
+    let updatedGame = { ...gameStore.game! };
+
+    let updatedTickets = [...updatedGame.tickets || [] ]
+    updatedTickets.splice(index, 1)
+    updatedGame.tickets = updatedTickets
+
+    console.log('removeTicket',updatedTickets)
+
+    updateGame(updatedGame);
+  }
+
+  function updateTicket(index: number, field: 'number' | 'description', value: string) {
+    let updatedGame = { ...gameStore.game! };
+
+    let updatedTickets = [...updatedGame.tickets || [] ]
+    updatedTickets[index][field] = value
+    updatedGame.tickets = updatedTickets
+
+    console.log('updateTicket',updatedTickets)
+
+    updateGame(updatedGame);
+  }
+
   return {
     game: gameStore.game,
     loading: gameStore.loading,
@@ -145,5 +192,8 @@ export function useGame(roomCode?: string, myInformation?: Player, role?: 'playe
     reset,
     createGame,
     joinGame,
+    addTicket,
+    removeTicket,
+    updateTicket,
   }
 }

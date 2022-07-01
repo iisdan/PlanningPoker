@@ -16,7 +16,7 @@ import { DisabledCardSelect } from './DisabledCardSelect';
 
 export function CreateGame() {
 
-  const { createGame } = useGame();
+  const { createGame, game } = useGame();
   const deviceType = useDeviceType();
   const navigate = useNavigate();
 
@@ -95,7 +95,7 @@ export function CreateGame() {
             <Button 
               disabled={!companyName}
               onClick={async () => {
-                await createGame(roomCode, companyName, { disabledCards });
+                await createGame(roomCode, companyName, { disabledCards, tickets: game?.tickets || [] });
                 navigate(`/host/${roomCode}`); // must be done via code after create game
               }}
             >

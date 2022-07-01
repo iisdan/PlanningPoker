@@ -47,17 +47,17 @@ export function PreGameLobby(props: { role: 'player' | 'host', showStartButton: 
             <>
               <Box paddingTop="s">
                 {!roomCodeIsCopied && (
-                  <Text size="xs" color="secondary" align="center">
-                    Room Code (Cick to copy)
+                  <Text size="s" color="secondary" align="center">
+                    Click to Copy Join Link:
                   </Text>
                 )}
                 {roomCodeIsCopied && (
-                  <Text size="xs" fontWeight={600} color="accent" align="center">
+                  <Text size="s" fontWeight={600} color="accent" align="center">
                     Copied!
                   </Text>
                 )}
               </Box>
-              <Text size="xxl" fontWeight={600} color="accent">
+              <Text size="xl" fontWeight={600} color="accent">
                 <div 
                   onClick={copyRoomCode} 
                   style={{ cursor: 'pointer' }}

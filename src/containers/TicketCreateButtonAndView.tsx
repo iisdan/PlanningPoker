@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box } from '../components/Box';
 import { Card, cards } from '../components/Card';
 import { HoverEffect } from '../components/HoverEffect';
@@ -15,30 +15,33 @@ import styled from 'styled-components';
 import { Input } from '../components/Input';
 
 const ScrollView = styled.div`
-  height: 150px;
+  height: 350px;
   overflow-y: auto;
 `
 
 export function TicketCreateButtonAndView() {
 
-  const { game, selectCard } = useGame();
+  const { game, addTicket, removeTicket, updateTicket } = useGame();
   const { me } = useMe();
 
   const myId = me?.id!;  
   const deviceType = useDeviceType();
   const [open, setOpen] = useState(false);
 
+  const tickets = game?.tickets || []
+
+  useEffect(() => {
+    if (!tickets.length) {
+      addTicket()
+    }
+  }, [open, tickets])
+
   return (
     <>
-
-      {/* <div onClick={() => setOpen(!open)} style={{ cursor: 'pointer' }}>
-        <Text size='xs' color={'accent'}>Tickets</Text>
-      </div> */}
 
       <div style={{ cursor: 'pointer' }} onClick={() => setOpen(!open)}>
         <Box direction='vertical' alignItems='center' justifyContent='center' paddingRight='s'>
           <img alt="card" src={require('../assets/icons/ticket.svg').default} width="30" />
-            {/* <Text size='xs' >Tickets</Text> */}
         </Box>
       </div>
 
@@ -58,24 +61,27 @@ export function TicketCreateButtonAndView() {
 
             <ScrollView>
 
-              <Box justifyContent="center" direction="horizontal">
-                <Box paddingRight='xs'>
-                  <Input label="Ticket" value={''} setValue={(newValue) => {}} />
-                </Box>
-                <Input label="Description" value={''} setValue={(newValue) => {}} />
-              </Box>
+              {tickets.map((ticket, idx) => (
+                <Box justifyContent="center" alignItems='center' direction="horizontal">
+                    <div onClick={() => removeTicket(idx)} style={{ cursor: 'pointer', opacity: tickets.length > 1 ? 1 : 0.2 }}>
+                      <Box paddingRight='s' paddingBottom='s'>
+                        <img alt="x" src={require('../assets/icons/x.svg').default} width="20" />
+                      </Box>
+                    </div>
 
-              <Box justifyContent="center" direction="horizontal">
-                <Box paddingRight='xs'>
-                  <Input label="Ticket" value={''} setValue={(newValue) => {}} />
+                  <Box paddingRight='xs'>
+                    <Input label="Ticket" value={ticket.number || ''} setValue={(newValue) => updateTicket(idx, 'number', newValue)} />
+                  </Box>
+                  <Input label="Description" value={ticket.description || ''} setValue={(newValue) => updateTicket(idx, 'description', newValue)} />                  
                 </Box>
-                <Input label="Description" value={''} setValue={(newValue) => {}} />
-              </Box>
-
+              ))}
 
             </ScrollView>
 
             <Box paddingTop="l">
+              <Box paddingRight='s'>
+                <Button onClick={() => addTicket()}>Add Ticket</Button>
+              </Box>
               <Button onClick={() => setOpen(false)}>Done</Button>
             </Box>
             
