@@ -18,10 +18,7 @@ const ScrollView = styled.div`
 export function TicketCreateButtonAndView() {
 
   const { game, addTicket, removeTicket, updateTicket } = useGame();
-  const { me } = useMe();
 
-  const myId = me?.id!;  
-  const deviceType = useDeviceType();
   const [open, setOpen] = useState(false);
 
   const tickets = game?.tickets || []

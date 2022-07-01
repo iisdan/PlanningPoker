@@ -16,11 +16,6 @@ interface Props {
 
 export function DisabledCardSelect(props: Props) {
 
-  const { game, selectCard } = useGame();
-  const { me } = useMe();
-
-  const myId = me?.id!;  
-  const deviceType = useDeviceType();
   const [open, setOpen] = useState(false);
 
   return (
