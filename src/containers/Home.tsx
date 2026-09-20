@@ -22,7 +22,7 @@ export function Home() {
       <MaxWidth small>
         <>
 
-            <Box paddingBottom="l" direction="horizontal" justifyContent="center">
+            <Box paddingTop="xs" paddingBottom="l" direction="horizontal" justifyContent="center">
               <Box padding="s">
                 <Card size='xl' card={3} flipped={firstCardFlipped} />
                 <div style={{ zIndex: 99, position:'relative', transform: 'scale(1.2)', }}>

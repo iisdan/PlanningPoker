@@ -37,7 +37,7 @@ function App() {
         
       <Nav />
 
-      <Box wrap height="100%" direction="vertical" justifyContent={shouldVerticallyCenter ? 'center' : undefined} alignItems="center" overflowY="auto">
+      <Box wrap height="100%" direction="vertical" justifyContent={shouldVerticallyCenter ? 'safe center' : undefined} alignItems="center" overflowY="auto">
         
         <Routes>
           <Route path="/" element={<Home />} />

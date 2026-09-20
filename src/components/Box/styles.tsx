@@ -7,7 +7,7 @@ interface Props {
   paddingTop?: sizingCode;
   paddingBottom?: sizingCode;
   padding?: sizingCode;
-  justifyContent?: 'space-between' | 'center' | 'space-evenly' | 'space-around';
+  justifyContent?: 'space-between' | 'center' | 'safe center' | 'space-evenly' | 'space-around';
   direction?: 'horizontal' | 'vertical';
   alignItems?: 'flex-end' | 'center';
   height?: string;
