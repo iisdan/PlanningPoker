@@ -18,6 +18,7 @@ export function CreateGame() {
   const { createGame, game } = useGame();
   const deviceType = useDeviceType();
   const navigate = useNavigate();
+  const companyInputRef = React.useRef<HTMLInputElement>(null);
 
   const [disabledCards, setDisabledCards] = React.useState<{ [card: string]: boolean; }>({});
   const [disabledCardsLocalStorage, setDisabledCardsLocalStorage] = useLocalStorage('disabledCards', '{}');
@@ -55,14 +56,14 @@ export function CreateGame() {
           </Box>
 
           <Box paddingLeft="s" paddingRight="s" paddingTop="m" justifyContent="center" alignItems='center' direction="horizontal">
-            <Input autofocus label="Company" value={companyName} setValue={(companyName) => setCompanyName(companyName)} />
+            <Input inputRef={companyInputRef} autofocus label="Company" value={companyName} setValue={(companyName) => setCompanyName(companyName)} />
 
-            <Box paddingLeft='s' paddingBottom='m'>
-              <TicketCreateButtonAndView />
+            <Box paddingLeft='s' paddingRight='s' paddingBottom='m'>
+              <TicketCreateButtonAndView onDone={() => companyInputRef.current?.focus()} />
             </Box>
 
             <Box  paddingBottom='m'>
-              <DisabledCardSelect disabledCards={disabledCards} setDisabledCards={setDisabledCards} />
+              <DisabledCardSelect disabledCards={disabledCards} setDisabledCards={setDisabledCards} onDone={() => companyInputRef.current?.focus()} />
             </Box>
           </Box>
 

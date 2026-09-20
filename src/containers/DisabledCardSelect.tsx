@@ -5,10 +5,12 @@ import { MaxWidth } from '../components/MaxWidth';
 import { Overlay } from '../components/Overlay';
 import { Text } from '../components/Text';
 import { Button } from '../components/Button';
+import { IconButton } from '../components/IconButton';
 
 interface Props {
   disabledCards: { [card: string]: boolean; }; // returns a string for local storage
   setDisabledCards: (value: { [card: string]: boolean; }) => void;
+  onDone?: () => void;
 }
 
 export function DisabledCardSelect(props: Props) {
@@ -18,14 +20,9 @@ export function DisabledCardSelect(props: Props) {
   return (
     <>
 
-      <div style={{ cursor: 'pointer' }} onClick={() => setOpen(!open)}>
-        <Box direction='vertical' alignItems='center' justifyContent='center'>
-          <img alt="card" src={require('../assets/icons/cards.svg').default} width="30" />
-          {/* <Box paddingTop='s'>
-            <Text size='xs' >Deck</Text>
-          </Box> */}
-        </Box>
-      </div>
+      <IconButton label="Deck" onClick={() => setOpen(!open)}>
+        <img alt="" src={require('../assets/icons/cards.svg').default} width="30" />
+      </IconButton>
 
       <Overlay open={open}>
         <MaxWidth>
@@ -61,7 +58,10 @@ export function DisabledCardSelect(props: Props) {
             </Box>
 
             <Box paddingTop="l">
-              <Button onClick={() => setOpen(false)}>Done</Button>
+              <Button onClick={() => {
+                setOpen(false);
+                window.requestAnimationFrame(() => props.onDone?.());
+              }}>Done</Button>
             </Box>
           </Box>
             

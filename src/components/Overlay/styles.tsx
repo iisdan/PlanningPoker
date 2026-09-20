@@ -14,7 +14,8 @@ export const Container = styled.div<{ open: boolean; }>`
   justify-content: center;
   box-sizing: border-box;
   z-index: 50;
-  transition: all ${duration};
+  visibility: ${(props) => props.open ? 'visible' : 'hidden'};
+  transition: background-color ${duration}, visibility 0s ${(props) => props.open ? '0s' : duration};
   background-color: ${(props) => props.open ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,0.0)'};
   pointer-events: ${(props) => props.open ? 'all' : 'none'};
 `;

@@ -7,13 +7,18 @@ import { useGame } from '../hooks/useGame';
 import { Button } from '../components/Button';
 import styled from 'styled-components';
 import { Input } from '../components/Input';
+import { IconButton } from '../components/IconButton';
 
 const ScrollView = styled.div`
   height: 350px;
   overflow-y: auto;
 `
 
-export function TicketCreateButtonAndView() {
+interface Props {
+  onDone?: () => void;
+}
+
+export function TicketCreateButtonAndView(props: Props) {
 
   const { game, addTicket, removeTicket, updateTicket } = useGame();
 
@@ -30,11 +35,9 @@ export function TicketCreateButtonAndView() {
   return (
     <>
 
-      <div style={{ cursor: 'pointer' }} onClick={() => setOpen(!open)}>
-        <Box direction='vertical' alignItems='center' justifyContent='center' paddingRight='s'>
-          <img alt="card" src={require('../assets/icons/ticket.svg').default} width="30" />
-        </Box>
-      </div>
+      <IconButton label="Tickets" onClick={() => setOpen(!open)}>
+        <img alt="" src={require('../assets/icons/ticket.svg').default} width="30" />
+      </IconButton>
 
       <Overlay open={open}>
         <MaxWidth>
@@ -73,7 +76,10 @@ export function TicketCreateButtonAndView() {
               <Box paddingRight='s'>
                 <Button onClick={() => addTicket()}>Add Ticket</Button>
               </Box>
-              <Button onClick={() => setOpen(false)}>Done</Button>
+              <Button onClick={() => {
+                setOpen(false);
+                window.requestAnimationFrame(() => props.onDone?.());
+              }}>Done</Button>
             </Box>
             
           </Box>

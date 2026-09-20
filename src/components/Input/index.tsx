@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box } from '../Box';
 import { Text } from '../Text';
 import { InputElement, Container } from './styles';
@@ -8,6 +9,7 @@ interface Props {
   value: string;
   setValue: (newValue: string) => void;
   autofocus?: boolean;
+  inputRef?: React.Ref<HTMLInputElement>;
 }
 
 export const Input = (props: Props) => {
@@ -19,7 +21,7 @@ export const Input = (props: Props) => {
             <Text size="s" color="secondary">{props.label}</Text>
           </Box>
         )}
-        <InputElement autoFocus={props.autofocus} placeholder={props.placeholder} value={props.value} onChange={(event) => props.setValue(event.target.value)} />
+        <InputElement ref={props.inputRef} autoFocus={props.autofocus} placeholder={props.placeholder} value={props.value} onChange={(event) => props.setValue(event.target.value)} />
       </Box>
     </Container>
   );
